@@ -10,4 +10,5 @@ public class BunkyServerApplication {
 		SpringApplication.run(BunkyServerApplication.class, args);
 	}
 
+
 }
