@@ -12,6 +12,9 @@ public class HelloController {
 		return "Hello " + name + "!";
 	}
 
-//	TODO: search for dependency injection explaining
-// TODO: look at this guide: https://spring.io/guides/gs/spring-boot/
+	@RequestMapping("specialMsg")
+	public String msg(){
+		return "we are the BEST";
+	}
+
 }
