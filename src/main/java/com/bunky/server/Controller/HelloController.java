@@ -22,6 +22,4 @@ public class HelloController {
 		return "My Test is working!";
 	}
 
-//	TODO: search for dependency injection explaining
-// TODO: look at this guide: https://spring.io/guides/gs/spring-boot/
 }
