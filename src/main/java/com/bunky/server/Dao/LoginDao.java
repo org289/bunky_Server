@@ -4,15 +4,11 @@ import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import static javax.swing.UIManager.put;
 
 @Repository
 public class LoginDao {
@@ -52,14 +48,19 @@ public class LoginDao {
         return id;
     }
 
+    public List<Apartment> getAllApt() {
+        return apts;
+    }
+
     /**
      * add new user to existing apartment
+     *
      * @param aptCode
      * @param userID
      */
     public void loginApt(String aptCode, String userID) {
         for (Apartment apartment : apts) {
-            if (apartment.getId().equals(aptCode)){
+            if (apartment.getId().equals(aptCode)) {
                 apartment.addUser(userID);
                 break;
             }

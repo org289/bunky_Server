@@ -1,8 +1,11 @@
 package com.bunky.server.Service;
 
 import com.bunky.server.Dao.LoginDao;
+import com.bunky.server.Entity.Apartment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LoginService {
@@ -23,6 +26,10 @@ public class LoginService {
 
     public void loginApt(String aptCode, String userID) {
         loginDao.loginApt(aptCode, userID);
+    }
+
+    public List<Apartment> getAllApt() {
+        return loginDao.getAllApt();
     }
 
 

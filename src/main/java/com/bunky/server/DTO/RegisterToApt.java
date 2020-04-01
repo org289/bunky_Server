@@ -3,13 +3,13 @@ package com.bunky.server.DTO;
 
 public class RegisterToApt {
     String aptCode;
-    String userID;
+    String userId;
 
     public String getAptCode() {
         return aptCode;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUserId() {
+        return userId;
     }
 }
