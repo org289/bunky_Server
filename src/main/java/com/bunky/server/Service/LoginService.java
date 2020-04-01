@@ -1,34 +1,29 @@
 package com.bunky.server.Service;
 
-import com.bunky.server.Dao.UserDao;
-import com.bunky.server.Entity.User;
+import com.bunky.server.Dao.LoginDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Collection;
 
 @Service
-public class UserService {
+public class LoginService {
     @Autowired
-    private UserDao userDao;
+    private LoginDao loginDao;
 
-    public int createUser(String mail, String username){
-        return userDao.createUser(mail, username);
+    public String createUser(String mail, String username) {
+        return loginDao.createUser(mail, username);
     }
 
-    public int getUserByMail(String mail) {
-        return userDao.getUserByMail(mail);
+    public String getUserByMail(String mail) {
+        return loginDao.getUserByMail(mail);
     }
 
-    public int createApt(int userId, String aptName) {
-        return userDao.createApt(userId, aptName);
+    public String createApt(String userId, String aptName) {
+        return loginDao.createApt(userId, aptName);
     }
 
-    public void loginApt(int aptCode, int userID){
-        userDao.loginApt( aptCode,  userID);
+    public void loginApt(String aptCode, String userID) {
+        loginDao.loginApt(aptCode, userID);
     }
-
 
 
 //    public Collection<User> getAllUsers() {

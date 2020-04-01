@@ -1,10 +1,10 @@
 package com.bunky.server.DTO;
 
 public class NewApartment {
-    private int userId;
+    private String userId;
     private String aptName;
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 

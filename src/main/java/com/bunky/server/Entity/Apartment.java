@@ -5,12 +5,13 @@ import java.util.List;
 
 public class Apartment {
     private final String name;
-    private final int id;
-    private final List<Integer> users;
+    private final String id;
+    private final List<String> users;
 
-    public Apartment(String name, int userAdmin, int id) {
+    public Apartment(String name, String userAdmin, String id) {
         this.name = name;
-        this.users = new ArrayList<>(userAdmin);
+        this.users = new ArrayList<String>();
+        this.users.add(userAdmin);
         this.id = id;
     }
 
@@ -18,15 +19,15 @@ public class Apartment {
         return name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public List<Integer> getUsers() {
+    public List<String> getUsers() {
         return users;
     }
 
-    public void addUser(int userId){
+    public void addUser(String userId){
         users.add(userId);
     }
 }

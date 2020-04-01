@@ -3,7 +3,7 @@ package com.bunky.server.Controller;
 import com.bunky.server.DTO.NewApartment;
 import com.bunky.server.DTO.NewUser;
 import com.bunky.server.DTO.RegisterToApt;
-import com.bunky.server.Service.UserService;
+import com.bunky.server.Service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
     @Autowired
-    private UserService userService;
+    private LoginService userService;
 
     /**
      * get details of new user and adds to DB
@@ -23,17 +23,17 @@ public class LoginController {
      * @return userId
      */
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public int createUser(@RequestBody NewUser newUser) {
+    public String createUser(@RequestBody NewUser newUser) {
         return this.userService.createUser(newUser.getEmail(), newUser.getName());
     }
 
     @RequestMapping(value = "/loginUser/{mail}", method = RequestMethod.GET)
-    public int loginUser(@PathVariable String mail) {
+    public String loginUser(@PathVariable String mail) {
         return userService.getUserByMail(mail);
     }
 
     @RequestMapping(value = "/newApt", method = RequestMethod.POST)
-    public int createApartment(@RequestBody NewApartment newApartment) {
+    public String createApartment(@RequestBody NewApartment newApartment) {
         return this.userService.createApt(newApartment.getUserId(), newApartment.getAptName());
     }
 

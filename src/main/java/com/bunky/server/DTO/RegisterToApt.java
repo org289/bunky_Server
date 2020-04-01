@@ -2,14 +2,14 @@ package com.bunky.server.DTO;
 
 
 public class RegisterToApt {
-    int aptCode;
-    int userID;
+    String aptCode;
+    String userID;
 
-    public int getAptCode() {
+    public String getAptCode() {
         return aptCode;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 }

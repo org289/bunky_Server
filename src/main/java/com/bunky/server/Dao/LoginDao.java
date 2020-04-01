@@ -4,6 +4,7 @@ import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,40 +15,39 @@ import java.util.Map.Entry;
 import static javax.swing.UIManager.put;
 
 @Repository
-public class UserDao {
-    private static final Map<Integer, User> users;
+public class LoginDao {
+    private static final Map<String, User> users;
     private static final List<Apartment> apts;
-    public static final int NOT_FOUND = -1;
 
     static {
-        users = new HashMap<Integer, User>() {
+        users = new HashMap<String, User>() {
             {
-                put(1, new User(1, "Amy Parizada", "amy@gmail.com"));
-                put(2, new User(2, "Or Gur", "or@gmail.com"));
-                put(3, new User(3, "Yuval Cohen", "yuval@gmail.com"));
-                put(4, new User(4, "Miriel Jerbi", "miriel@gmail.com"));
+                put("u1", new User("u1", "Amy Parizada", "amy@gmail.com"));
+                put("u2", new User("u2", "Or Gur", "or@gmail.com"));
+                put("u3", new User("u3", "Yuval Cohen", "yuval@gmail.com"));
+                put("u4", new User("u4", "Miriel Jerbi", "miriel@gmail.com"));
             }
         };
 
         apts = new ArrayList<>();
-        apts.add(new Apartment("fun", 1, 1));
+        apts.add(new Apartment("fun", "u1", "a1"));
     }
 
-    public int createUser(String mail, String username) {
+    public String createUser(String mail, String username) {
         // add new user to DB with this mail and username
-        int id = 5;
+        String id = "u5";
         users.put(id, new User(id, username, mail));
         return id;
     }
 
-    public int getUserByMail(String mail) {
+    public String getUserByMail(String mail) {
         return users.entrySet().stream()
                 .filter(x -> mail.equals(x.getValue().getEmail()))
-                .map(Entry::getKey).findFirst().orElse(NOT_FOUND);
+                .map(Entry::getKey).findFirst().orElse(null);
     }
 
-    public int createApt(int userId, String aptName) {
-        int id = 2;
+    public String createApt(String userId, String aptName) {
+        String id = "a2";
         apts.add(new Apartment(aptName, userId, id));
         return id;
     }
@@ -57,9 +57,9 @@ public class UserDao {
      * @param aptCode
      * @param userID
      */
-    public void loginApt(int aptCode, int userID) {
+    public void loginApt(String aptCode, String userID) {
         for (Apartment apartment : apts) {
-            if (apartment.getId() == aptCode){
+            if (apartment.getId().equals(aptCode)){
                 apartment.addUser(userID);
                 break;
             }
