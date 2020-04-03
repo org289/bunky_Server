@@ -14,12 +14,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private String email;
+    private String mail;
 
 
-    public User(String name, String email) {
+    public User(String name, String mail) {
         this.name = name;
-        this.email = email;
+        this.mail = mail;
     }
 
     public User() {
@@ -42,13 +42,14 @@ public class User {
         this.name = name;
     }
 
+    // TODO: change email in DB to mail.
     @Column(name = "email", nullable = false)
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }
 

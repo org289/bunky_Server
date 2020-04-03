@@ -2,13 +2,13 @@ package com.bunky.server.DTO;
 
 public class NewUser {
     private String name;
-    private String email;
+    private String mail;
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 }

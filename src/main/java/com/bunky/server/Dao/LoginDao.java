@@ -7,6 +7,7 @@ import com.bunky.server.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,27 +22,45 @@ public class LoginDao {
         this.aptRepo = aptRepo;
     }
 
+
+    // USERS
+
     public Integer createUser(String mail, String username) {
         return userRepo.save(new User(username, mail)).getId();
     }
 
-
-    public String getUserByMail(String mail) {
-
+    public Integer getUserByMail(String mail) {
+        // check how to get by mail, not id (primary-key).
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getMail().equals(mail)) {
+                return user.getId();
+            }
+        }
+        // no such user with that mail
+        return null;
     }
-//        return users.entrySet().stream()
-//                .filter(x -> mail.equals(x.getValue().getEmail()))
-//                .map(Entry::getKey).findFirst().orElse(null);
-//    }
+
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        // iterate all users, and add each user to list.
+        userRepo.findAll().forEach(users::add);
+        return users;
+    }
+
+
+    // APARTMENTS
 
     public Integer createApt(Integer userId, String aptName) {
         return aptRepo.save(new Apartment(aptName, userId)).getId();
     }
 
     public List<Apartment> getAllApt() {
-        aptRepo.findAll();
+        List<Apartment> apartments = new ArrayList<>();
+        // iterate all apts, and add each apt to list.
+        aptRepo.findAll().forEach(apartments::add);
+        return apartments;
     }
-
 
     /**
      * add new user to existing apartment
@@ -49,7 +68,8 @@ public class LoginDao {
      * @param aptCode
      * @param userID
      */
-    public void loginApt(String aptCode, String userID) {
+    public void loginApt(Integer aptCode, Integer userID) {
+        List<Apartment> apts = getAllApt();
         for (Apartment apartment : apts) {
             if (apartment.getId().equals(aptCode)) {
                 apartment.addUser(userID);
@@ -57,3 +77,4 @@ public class LoginDao {
             }
         }
     }
+}
