@@ -2,55 +2,46 @@ package com.bunky.server.Dao;
 
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
-import org.springframework.stereotype.Repository;
+import com.bunky.server.repository.AptRepo;
+import com.bunky.server.repository.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-@Repository
+@Service
 public class LoginDao {
-    private static final Map<String, User> users;
-    private static final List<Apartment> apts;
 
-    static {
-        users = new HashMap<String, User>() {
-            {
-                put("u1", new User("u1", "Amy Parizada", "amy@gmail.com"));
-                put("u2", new User("u2", "Or Gur", "or@gmail.com"));
-                put("u3", new User("u3", "Yuval Cohen", "yuval@gmail.com"));
-                put("u4", new User("u4", "Miriel Jerbi", "miriel@gmail.com"));
-            }
-        };
+    private UserRepo userRepo;
+    private AptRepo aptRepo;
 
-        apts = new ArrayList<>();
-        apts.add(new Apartment("fun", "u1", "a1"));
+    @Autowired
+    public LoginDao(UserRepo userRepo, AptRepo aptRepo) {
+        this.userRepo = userRepo;
+        this.aptRepo = aptRepo;
     }
 
-    public String createUser(String mail, String username) {
-        // add new user to DB with this mail and username
-        String id = "u5";
-        users.put(id, new User(id, username, mail));
-        return id;
+    public Integer createUser(String mail, String username) {
+        return userRepo.save(new User(username, mail)).getId();
     }
+
 
     public String getUserByMail(String mail) {
-        return users.entrySet().stream()
-                .filter(x -> mail.equals(x.getValue().getEmail()))
-                .map(Entry::getKey).findFirst().orElse(null);
-    }
 
-    public String createApt(String userId, String aptName) {
-        String id = "a2";
-        apts.add(new Apartment(aptName, userId, id));
-        return id;
+    }
+//        return users.entrySet().stream()
+//                .filter(x -> mail.equals(x.getValue().getEmail()))
+//                .map(Entry::getKey).findFirst().orElse(null);
+//    }
+
+    public Integer createApt(Integer userId, String aptName) {
+        return aptRepo.save(new Apartment(aptName, userId)).getId();
     }
 
     public List<Apartment> getAllApt() {
-        return apts;
+        aptRepo.findAll();
     }
+
 
     /**
      * add new user to existing apartment
@@ -66,29 +57,3 @@ public class LoginDao {
             }
         }
     }
-
-//    public Collection<User> getAllUsers() {
-//        return users.values();
-//    }
-
-//    public User getUserById(int id) {
-//        return users.get(id);
-//    }
-
-//    public void deleteUserById(int id) {
-//        users.remove(id);
-//    }
-//
-//    public void updateUser(User user) {
-//        User updatedUser = users.get((user.getId()));
-//        updatedUser.setName(user.getName());
-//        updatedUser.setEmail(user.getEmail());
-//        users.put((updatedUser.getId()), updatedUser);
-//    }
-//
-//    public void insertUserById(User user) {
-//        users.put(user.getId(), user);
-//    }
-
-
-}

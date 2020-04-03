@@ -1,33 +1,45 @@
 package com.bunky.server.Entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "apartments")
 public class Apartment {
-    private final String name;
-    private final String id;
-    private final List<String> users;
+    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private List<Integer> users;
 
-    public Apartment(String name, String userAdmin, String id) {
+    public Apartment(String name, Integer userAdmin) {
         this.name = name;
-        this.users = new ArrayList<String>();
+        this.users = new ArrayList<Integer>();
         this.users.add(userAdmin);
-        this.id = id;
+    }
+
+    public Apartment() {
     }
 
     public String getName() {
         return name;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public List<String> getUsers() {
+    public List<Integer> getUsers() {
         return users;
     }
 
-    public void addUser(String userId){
+    public void addUser(Integer userId){
         users.add(userId);
     }
 }
