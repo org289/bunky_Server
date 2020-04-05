@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer userId;
     private String name;
     private String mail;
 
@@ -26,11 +26,11 @@ public class User {
     }
 
     public Integer getId() {
-        return id;
+        return userId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.userId = id;
     }
 
     @Column(name = "name", nullable = false)
@@ -41,9 +41,7 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
-    // TODO: change email in DB to mail.
-    @Column(name = "email", nullable = false)
+    @Column(name = "mail", nullable = false)
     public String getMail() {
         return mail;
     }

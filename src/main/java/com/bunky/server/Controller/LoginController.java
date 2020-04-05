@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class LoginController {
@@ -35,7 +36,6 @@ public class LoginController {
         return this.loginService.createUser(newUser.getMail(), newUser.getName());
     }
 
-    // TODO: maybe loginUser should get user by id, and add a different method getting use by mail.
     @RequestMapping(value = "/loginUser/{mail}", method = RequestMethod.GET)
     public Integer loginUser(@PathVariable String mail) {
         return loginService.getUserByMail(mail);
@@ -51,13 +51,15 @@ public class LoginController {
     // APARTMENT
 
     @RequestMapping(value = "/newApt", method = RequestMethod.POST)
-    public Integer createApartment(@RequestBody NewApartment newApartment) {
-        return this.loginService.createApt(newApartment.getUserId(), newApartment.getAptName());
+    public UUID createApartment(@RequestBody NewApartment newApartment) {
+        User user= loginService.getUserById(newApartment.getUserId());
+        return this.loginService.createApt(user, newApartment.getAptName());
     }
 
     @RequestMapping(value = "/loginApt", method = RequestMethod.PUT)
     public void loginApartment(@RequestBody RegisterToApt registerToApt) {
-        this.loginService.loginApt(registerToApt.getAptCode(), registerToApt.getUserId());
+        User user= loginService.getUserById(registerToApt.getUserId());
+        this.loginService.loginApt(registerToApt.getAptCode(), user);
     }
 
     @RequestMapping(value = "/apts", method = RequestMethod.GET)

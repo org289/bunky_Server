@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LoginService {
@@ -35,16 +36,19 @@ public class LoginService {
 
     // APARTMENT
 
-    public Integer createApt(Integer userId, String aptName) {
-        return loginDao.createApt(userId, aptName);
+    public UUID createApt(User user, String aptName) {
+        return loginDao.createApt(user, aptName);
     }
 
-    public void loginApt(Integer aptCode, Integer userID) {
-        loginDao.loginApt(aptCode, userID);
+    public void loginApt(UUID aptCode, User user) {
+        loginDao.loginApt(aptCode, user);
     }
 
     public List<Apartment> getAllApt() {
         return loginDao.getAllApt();
     }
 
+    public User getUserById(Integer userId) {
+        return loginDao.getUserById(userId);
+    }
 }

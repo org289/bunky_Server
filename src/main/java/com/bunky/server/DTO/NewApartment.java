@@ -1,5 +1,7 @@
 package com.bunky.server.DTO;
 
+import com.bunky.server.Entity.User;
+
 public class NewApartment {
     private Integer userId;
     private String aptName;

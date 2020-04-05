@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LoginDao {
@@ -51,8 +52,8 @@ public class LoginDao {
 
     // APARTMENTS
 
-    public Integer createApt(Integer userId, String aptName) {
-        return aptRepo.save(new Apartment(aptName, userId)).getId();
+    public UUID createApt(User user, String aptName) {
+        return aptRepo.save(new Apartment(aptName, user)).getId();
     }
 
     public List<Apartment> getAllApt() {
@@ -64,17 +65,25 @@ public class LoginDao {
 
     /**
      * add new user to existing apartment
-     *
-     * @param aptCode
-     * @param userID
      */
-    public void loginApt(Integer aptCode, Integer userID) {
+    public void loginApt(UUID aptCode, User userID) {
         List<Apartment> apts = getAllApt();
         for (Apartment apartment : apts) {
             if (apartment.getId().equals(aptCode)) {
                 apartment.addUser(userID);
+                aptRepo.save(apartment);
                 break;
             }
         }
+    }
+
+    public User getUserById(Integer userId) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getId().equals(userId)) {
+                return user;
+            }
+        }
+        return null;
     }
 }
