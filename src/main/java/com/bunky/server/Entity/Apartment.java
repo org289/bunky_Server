@@ -1,5 +1,7 @@
 package com.bunky.server.Entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,7 @@ public class Apartment {
     private UUID aptId;
 
     @OneToMany
-    @JoinColumn(name = "aptId")
+    @JoinColumn(name = "apt_id")
     private List<User> users;
 
     public Apartment(String name, User userAdmin) {
