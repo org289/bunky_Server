@@ -23,7 +23,6 @@ public class LoginDao {
         this.aptRepo = aptRepo;
     }
 
-
     // USERS
 
     public Integer createUser(String mail, String username) {
@@ -49,6 +48,15 @@ public class LoginDao {
         return users;
     }
 
+    public User getUserById(Integer userId) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getId().equals(userId)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
     // APARTMENTS
 
@@ -77,13 +85,5 @@ public class LoginDao {
         }
     }
 
-    public User getUserById(Integer userId) {
-        List<User> users = getAllUsers();
-        for (User user : users) {
-            if (user.getId().equals(userId)) {
-                return user;
-            }
-        }
-        return null;
-    }
+
 }
