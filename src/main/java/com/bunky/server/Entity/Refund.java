@@ -20,7 +20,7 @@
 //    private Integer giverId;
 //    private Integer getterId;
 //
-//        private Date date;
+//        private LocalDate date;
 //    private BigDecimal amount;
 //
 //    // TODO: add a confirmed field? or a refund is getting to DB only after confirmed by app
