@@ -12,4 +12,5 @@ public class BunkyServerApplication {
         SpringApplication.run(BunkyServerApplication.class, args);
     }
 
+    // TODO: Class - feedback--> feedback(0 if valid 1 if there's err),error(string)
 }

@@ -28,6 +28,5 @@ class HelloControllerTest {
     void hello() throws Exception {
             RequestBuilder request = MockMvcRequestBuilders.get("/hello/Amy");
             mvc.perform(request).andExpect(content().string ("Hello Amy!"));
-
         }
 }
