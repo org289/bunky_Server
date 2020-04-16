@@ -2,17 +2,13 @@ package com.bunky.server.Service;
 
 import com.bunky.server.DTO.Debt;
 import com.bunky.server.Dao.BalanceDao;
-import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
 import com.bunky.server.Entity.Refund;
 import com.bunky.server.Entity.User;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.swing.text.html.parser.Entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,15 +39,15 @@ public class BalanceService {
     // List<Expense> aptExpenses(aptId) //TODO: maybe add a period of time to show
 
     //computes balance for this user
-    public List<Debt> computeBalance(User user){
-         // needs to get this user apt
-
-
-         // get from the apt the expenses not balanced, the refunds confirmed and al list of Users
-         // call splitEqually with the above parameters -- gets List of debts for ALL users
-         // from this Debts list create new list only with this User in from/to fields
-
-     }
+//    public List<Debt> computeBalance(User user){
+//         // needs to get this user apt
+//
+//
+//         // get from the apt the expenses not balanced, the refunds confirmed and al list of Users
+//         // call splitEqually with the above parameters -- gets List of debts for ALL users
+//         // from this Debts list create new list only with this User in from/to fields
+//
+//     }
     // **debt == new class containing the user to pay to, and the amount
     // will call: 1. splitEqually - gets all expenses, split equally and calls to subRefund
     //            2. subtractRefunds - subtract the refunds from the compatible user and returns the userId's debts
@@ -83,9 +79,11 @@ public class BalanceService {
     }
 
     private List<Debt> getDebts(List<Debt> debts, HashMap<User, BigDecimal> userCreditDebt) {
-        Pair<User, BigDecimal> maxCredit = getMax(userCreditDebt);
-        Pair<User, BigDecimal> maxDebt = getMin(userCreditDebt);
-        if (maxCredit.getValue().equals(BigDecimal.ZERO) && maxDebt.getValue().equals(BigDecimal.ZERO)) {
+//        Pair<User, BigDecimal> maxCredit = getMax(userCreditDebt);
+//        Pair<User, BigDecimal> maxDebt = getMin(userCreditDebt);
+        Map.Entry<User, BigDecimal> maxCredit = userCreditDebt.entrySet().stream().max(Map.Entry.comparingByValue()).get();
+        Map.Entry<User, BigDecimal> maxDebt = userCreditDebt.entrySet().stream().min(Map.Entry.comparingByValue()).get();
+        if (maxCredit.getValue().compareTo(BigDecimal.ZERO) == 0 && maxDebt.getValue().compareTo(BigDecimal.ZERO) == 0) {
             // all balanced
             return debts;
         }
@@ -100,29 +98,29 @@ public class BalanceService {
         return (val2.compareTo(val1) < 0) ? val2 : val1;
     }
 
-    private Pair<User, BigDecimal> getMin(HashMap<User, BigDecimal> userCreditDebt) {
-        Pair<User, BigDecimal> minValue = new Pair<>(new User(), BigDecimal.ZERO);
+//    private Pair<User, BigDecimal> getMin(HashMap<User, BigDecimal> userCreditDebt) {
+//        Pair<User, BigDecimal> minValue = new Pair<>(new User(), BigDecimal.ZERO);
+//
+//        for (Map.Entry<User, BigDecimal> entry : userCreditDebt.entrySet()) {
+//            if (entry.getValue().compareTo(minValue.getValue()) < 0) {
+//                // new min
+//                minValue = new Pair<>(entry.getKey(), entry.getValue());
+//            }
+//        }
+//        return minValue;
+//    }
 
-        for (Map.Entry<User, BigDecimal> entry : userCreditDebt.entrySet()) {
-            if (entry.getValue().compareTo(minValue.getValue()) < 0) {
-                // new min
-                minValue = new Pair<>(entry.getKey(), entry.getValue());
-            }
-        }
-        return minValue;
-    }
-
-    private Pair<User, BigDecimal> getMax(HashMap<User, BigDecimal> userCreditDebt) {
-        Pair<User, BigDecimal> maxValue = new Pair<>(new User(), BigDecimal.ZERO);
-
-        for (Map.Entry<User, BigDecimal> entry : userCreditDebt.entrySet()) {
-            if (entry.getValue().compareTo(maxValue.getValue()) > 0) {
-                // new max
-                maxValue = new Pair<>(entry.getKey(), entry.getValue());
-            }
-        }
-        return maxValue;
-    }
+//    private Pair<User, BigDecimal> getMax(HashMap<User, BigDecimal> userCreditDebt) {
+//        Pair<User, BigDecimal> maxValue = new Pair<>(new User(), BigDecimal.ZERO);
+//
+//        for (Map.Entry<User, BigDecimal> entry : userCreditDebt.entrySet()) {
+//            if (entry.getValue().compareTo(maxValue.getValue()) > 0) {
+//                // new max
+//                maxValue = new Pair<>(entry.getKey(), entry.getValue());
+//            }
+//        }
+//        return maxValue;
+//    }
 
     public HashMap<User, BigDecimal> calcCreditDebt(List<Expense> aptExpenses, List<User> users) {
         BigDecimal aptSum = BigDecimal.ZERO;
@@ -147,3 +145,4 @@ public class BalanceService {
     }
 
 }
+

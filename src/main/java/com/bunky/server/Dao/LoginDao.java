@@ -49,13 +49,18 @@ public class LoginDao {
     }
 
     public User getUserById(Integer userId) {
-        List<User> users = getAllUsers();
-        for (User user : users) {
-            if (user.getId().equals(userId)) {
-                return user;
-            }
-        }
-        return null;
+//        List<User> users = getAllUsers();
+//        for (User user : users) {
+//            if (user.getId().equals(userId)) {
+//                return user;
+//            }
+//        }
+//        return null;
+        return userRepo.findById(userId).orElse(null);
+    }
+
+    public Apartment aptByUser(Integer userId){
+        return aptRepo.aptByUser(userId);
     }
 
     // APARTMENTS

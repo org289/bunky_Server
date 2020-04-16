@@ -6,7 +6,6 @@ import com.bunky.server.DTO.RegisterToApt;
 import com.bunky.server.Dao.LoginDao;
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
-import com.bunky.server.Service.LoginService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +44,12 @@ public class LoginController {
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> getAllUsers() {
         return loginDao.getAllUsers();
+    }
+
+
+    @RequestMapping(value = "/aptByUser", method = RequestMethod.GET)
+    public Apartment aptByUser(Integer userId) {
+        return loginDao.aptByUser(userId);
     }
 
 

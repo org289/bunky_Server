@@ -1,12 +1,10 @@
 package com.bunky.server.Service;
 
 import com.bunky.server.DTO.Debt;
-import com.bunky.server.Dao.BalanceDao;
 import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
 import com.bunky.server.Entity.Refund;
 import com.bunky.server.Entity.User;
-import com.bunky.server.repository.ExpenseRepo;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BalanceServiceTest {
 
@@ -71,7 +69,7 @@ class BalanceServiceTest {
         BalanceService service = new BalanceService();
         List<Debt> result = service.splitEqually(aptExpenses, aptRefunds, users );
         // debt --> yuval to amy -200
-//      test1:
+        // test1:
         assertEquals(new BigDecimal("200.00"), result.get(0).getAmount());
         assertEquals(users.get(2), result.get(0).getDebtFrom());
         assertEquals(users.get(0), result.get(0).getDebtTo());
