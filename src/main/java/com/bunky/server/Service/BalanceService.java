@@ -2,13 +2,17 @@ package com.bunky.server.Service;
 
 import com.bunky.server.DTO.Debt;
 import com.bunky.server.Dao.BalanceDao;
+import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
+import com.bunky.server.Entity.Refund;
 import com.bunky.server.Entity.User;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.swing.text.html.parser.Entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,17 +42,44 @@ public class BalanceService {
 
     // List<Expense> aptExpenses(aptId) //TODO: maybe add a period of time to show
 
-    // List<debt> computeBalance(userId)  **computes balance for this user
+    //computes balance for this user
+    public List<Debt> computeBalance(User user){
+         // needs to get this user apt
+
+
+         // get from the apt the expenses not balanced, the refunds confirmed and al list of Users
+         // call splitEqually with the above parameters -- gets List of debts for ALL users
+         // from this Debts list create new list only with this User in from/to fields
+
+     }
     // **debt == new class containing the user to pay to, and the amount
     // will call: 1. splitEqually - gets all expenses, split equally and calls to subRefund
     //            2. subtractRefunds - subtract the refunds from the compatible user and returns the userId's debts
 
-    public List<Debt> splitEqually(List<Expense> aptExpenses, List<User> users) {
+    public List<Debt> splitEqually(List<Expense> aptExpenses, List<Refund> aptRefunds, List<User> users) {
         List<Debt> debts = new ArrayList<>();
         // first, we calculate for each user it's credit / debt
         HashMap<User, BigDecimal> userCreditDebt = calcCreditDebt(aptExpenses, users);
+        subtractRefunds(userCreditDebt, aptRefunds);
         debts = getDebts(debts, userCreditDebt);
         return debts;
+    }
+
+    // List<debt>  computeAllBalance(aptId)     --- for each user in apt, computeBalance
+    //computes balance for this user
+    // needs to get this user apt
+    // get from the apt the expenses not balanced, the refunds confirmed and al list of Users
+    // call splitEqually with the above parameters -- gets List of debts for ALL users
+
+
+    private void subtractRefunds(HashMap<User, BigDecimal> userCreditDebt, List<Refund> aptRefunds) {
+        for (Refund refund : aptRefunds) {
+            BigDecimal amount = refund.getAmount();
+            BigDecimal currentGiverVal = userCreditDebt.get(refund.getGiver());
+            userCreditDebt.replace(refund.getGiver(), currentGiverVal.add(amount));
+            BigDecimal currentReceiverVal = userCreditDebt.get(refund.getReceiver());
+            userCreditDebt.replace(refund.getReceiver(), currentReceiverVal.subtract(amount));
+        }
     }
 
     private List<Debt> getDebts(List<Debt> debts, HashMap<User, BigDecimal> userCreditDebt) {
@@ -107,7 +138,6 @@ public class BalanceService {
         return sumPerUser;
     }
 
-
     private HashMap<User, BigDecimal> getUsersSumMap(List<User> users) {
         HashMap<User, BigDecimal> sumPerUser = new HashMap<User, BigDecimal>();
         for (User user : users) {
@@ -116,5 +146,4 @@ public class BalanceService {
         return sumPerUser;
     }
 
-    // List<List<debt>>  computeAllBalance(aptId)     --- for each user in apt, computeBalance
 }

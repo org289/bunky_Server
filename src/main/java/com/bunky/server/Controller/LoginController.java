@@ -27,6 +27,7 @@ public class LoginController {
 
     // USER
 
+
     /**
      * get details of new user and adds to DB
      */
