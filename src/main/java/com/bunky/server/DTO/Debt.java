@@ -38,4 +38,8 @@ public class Debt {
     public void setDebtFrom(User debtFrom) {
         this.debtFrom = debtFrom;
     }
+
+    public boolean containUser(User user) {
+        return user.equals(debtTo) || user.equals(debtFrom);
+    }
 }

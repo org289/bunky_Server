@@ -2,6 +2,8 @@ package com.bunky.server.Service;
 
 import com.bunky.server.DTO.Debt;
 import com.bunky.server.Dao.BalanceDao;
+import com.bunky.server.Dao.LoginDao;
+import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
 import com.bunky.server.Entity.Refund;
@@ -15,42 +17,59 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class BalanceService {
 
     private BalanceDao balanceDao;
+    private LoginDao loginDao;
 
     @Autowired
-    public BalanceService(BalanceDao balanceDao) {
+    public BalanceService(BalanceDao balanceDao, LoginDao loginDao) {
         this.balanceDao = balanceDao;
+        this.loginDao = loginDao;
     }
 
     public BalanceService() {
     }
 
-    public void createExpense(User user, ExpenseCategory expenseCategory, LocalDate date, BigDecimal amount) {
-        //TODO- is this class gets all those objects or creates them?
-        balanceDao.createExpense(new Expense(user, expenseCategory, date, amount));
+    public void createExpense(User user, ExpenseCategory expenseCategory, String name, LocalDate date, BigDecimal amount) {
+        if (name == null) {
+            name = expenseCategory.getName();
+        }
+        balanceDao.createExpense(new Expense(user, expenseCategory, name, date, amount));
     }
 
     // * createRefund(...)
 
-    // List<Expense> aptExpenses(aptId) //TODO: maybe add a period of time to show
+    public List<Expense> allAptExpenses(UUID aptId) {
+        return balanceDao.getAllAptExpenses(aptId);
+    }
 
-    //computes balance for this user
-//    public List<Debt> computeBalance(User user){
-//         // needs to get this user apt
-//
-//
-//         // get from the apt the expenses not balanced, the refunds confirmed and al list of Users
-//         // call splitEqually with the above parameters -- gets List of debts for ALL users
-//         // from this Debts list create new list only with this User in from/to fields
-//
-//     }
-    // **debt == new class containing the user to pay to, and the amount
-    // will call: 1. splitEqually - gets all expenses, split equally and calls to subRefund
-    //            2. subtractRefunds - subtract the refunds from the compatible user and returns the userId's debts
+    public List<Expense> getOpenExpenses(UUID aptId) {
+        List<Expense> allExpenses = allAptExpenses(aptId);
+        // for each expense, if not balanced, add.
+        return new ArrayList<Expense>();
+    }
+
+    private List<Refund> getConfirmedRefunds(UUID id) {
+        return null;
+    }
+
+    //    computes balance for this user
+    public List<Debt> computeBalance(User user) {
+        // needs to get this user apt
+        Apartment userApt = loginDao.aptByUser(user.getId());
+        // get from the apt the expenses not balanced, the refunds confirmed
+        List<Expense> aptExpenses = getOpenExpenses(userApt.getId());
+        List<Refund> aptRefunds = getConfirmedRefunds(userApt.getId());
+        // gets List of debts for ALL users
+        List<Debt> debts = splitEqually(aptExpenses, aptRefunds, userApt.getUsers());
+        // create new list only with this User in from/to fields
+        debts.removeIf(debt -> !debt.containUser(user));
+        return debts;
+    }
 
     public List<Debt> splitEqually(List<Expense> aptExpenses, List<Refund> aptRefunds, List<User> users) {
         List<Debt> debts = new ArrayList<>();
@@ -61,11 +80,7 @@ public class BalanceService {
         return debts;
     }
 
-    // List<debt>  computeAllBalance(aptId)     --- for each user in apt, computeBalance
-    //computes balance for this user
-    // needs to get this user apt
-    // get from the apt the expenses not balanced, the refunds confirmed and al list of Users
-    // call splitEqually with the above parameters -- gets List of debts for ALL users
+    // List<debt>  computeAllBalance(aptId)     --- return all users debit/credit (sum)
 
 
     private void subtractRefunds(HashMap<User, BigDecimal> userCreditDebt, List<Refund> aptRefunds) {
@@ -79,8 +94,6 @@ public class BalanceService {
     }
 
     private List<Debt> getDebts(List<Debt> debts, HashMap<User, BigDecimal> userCreditDebt) {
-//        Pair<User, BigDecimal> maxCredit = getMax(userCreditDebt);
-//        Pair<User, BigDecimal> maxDebt = getMin(userCreditDebt);
         Map.Entry<User, BigDecimal> maxCredit = userCreditDebt.entrySet().stream().max(Map.Entry.comparingByValue()).get();
         Map.Entry<User, BigDecimal> maxDebt = userCreditDebt.entrySet().stream().min(Map.Entry.comparingByValue()).get();
         if (maxCredit.getValue().compareTo(BigDecimal.ZERO) == 0 && maxDebt.getValue().compareTo(BigDecimal.ZERO) == 0) {
@@ -97,30 +110,6 @@ public class BalanceService {
     private BigDecimal minOfTwo(BigDecimal val1, BigDecimal val2) {
         return (val2.compareTo(val1) < 0) ? val2 : val1;
     }
-
-//    private Pair<User, BigDecimal> getMin(HashMap<User, BigDecimal> userCreditDebt) {
-//        Pair<User, BigDecimal> minValue = new Pair<>(new User(), BigDecimal.ZERO);
-//
-//        for (Map.Entry<User, BigDecimal> entry : userCreditDebt.entrySet()) {
-//            if (entry.getValue().compareTo(minValue.getValue()) < 0) {
-//                // new min
-//                minValue = new Pair<>(entry.getKey(), entry.getValue());
-//            }
-//        }
-//        return minValue;
-//    }
-
-//    private Pair<User, BigDecimal> getMax(HashMap<User, BigDecimal> userCreditDebt) {
-//        Pair<User, BigDecimal> maxValue = new Pair<>(new User(), BigDecimal.ZERO);
-//
-//        for (Map.Entry<User, BigDecimal> entry : userCreditDebt.entrySet()) {
-//            if (entry.getValue().compareTo(maxValue.getValue()) > 0) {
-//                // new max
-//                maxValue = new Pair<>(entry.getKey(), entry.getValue());
-//            }
-//        }
-//        return maxValue;
-//    }
 
     public HashMap<User, BigDecimal> calcCreditDebt(List<Expense> aptExpenses, List<User> users) {
         BigDecimal aptSum = BigDecimal.ZERO;

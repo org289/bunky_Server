@@ -34,20 +34,20 @@ class BalanceServiceTest {
         };
         aptExpenses = new ArrayList<Expense>() {
             {
-                add(new Expense(users.get(0), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(500)));
+                add(new Expense(users.get(0), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(500)));
 //                add(new Expense(users.get(1), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(500)));
-                add(new Expense(users.get(1), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(250)));
-                add(new Expense(users.get(3), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(250)));
+                add(new Expense(users.get(1), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(250)));
+                add(new Expense(users.get(3), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(250)));
             }
         };
 
         aptExpenses2 = new ArrayList<Expense>() {
             {
-                add(new Expense(users.get(0), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(250)));
-                add(new Expense(users.get(0), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(250)));
-                add(new Expense(users.get(1), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(250)));
-                add(new Expense(users.get(3), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(25)));
-                add(new Expense(users.get(2), new ExpenseCategory(), LocalDate.now(), BigDecimal.valueOf(30)));
+                add(new Expense(users.get(0), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(250)));
+                add(new Expense(users.get(0), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(250)));
+                add(new Expense(users.get(1), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(250)));
+                add(new Expense(users.get(3), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(25)));
+                add(new Expense(users.get(2), new ExpenseCategory(),"test", LocalDate.now(), BigDecimal.valueOf(30)));
             }
         };
 

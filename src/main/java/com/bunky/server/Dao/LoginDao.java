@@ -5,6 +5,7 @@ import com.bunky.server.Entity.User;
 import com.bunky.server.repository.AptRepo;
 import com.bunky.server.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,8 +15,8 @@ import java.util.UUID;
 @Service
 public class LoginDao {
 
-    private UserRepo userRepo;
-    private AptRepo aptRepo;
+    private final UserRepo userRepo;
+    private final AptRepo aptRepo;
 
     @Autowired
     public LoginDao(UserRepo userRepo, AptRepo aptRepo) {
@@ -30,32 +31,14 @@ public class LoginDao {
     }
 
     public Integer getUserByMail(String mail) {
-        // check how to get by mail, not id (primary-key).
-        List<User> users = getAllUsers();
-        for (User user : users) {
-            if (user.getMail().equals(mail)) {
-                return user.getId();
-            }
-        }
-        // no such user with that mail
-        return null;
+        return userRepo.findOne(Example.of(new User(null, mail))).map(User::getId).orElse(null);
     }
 
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-        // iterate all users, and add each user to list.
-        userRepo.findAll().forEach(users::add);
-        return users;
+        return new ArrayList<>(userRepo.findAll());
     }
 
     public User getUserById(Integer userId) {
-//        List<User> users = getAllUsers();
-//        for (User user : users) {
-//            if (user.getId().equals(userId)) {
-//                return user;
-//            }
-//        }
-//        return null;
         return userRepo.findById(userId).orElse(null);
     }
 
@@ -70,10 +53,7 @@ public class LoginDao {
     }
 
     public List<Apartment> getAllApt() {
-        List<Apartment> apartments = new ArrayList<>();
-        // iterate all apts, and add each apt to list.
-        aptRepo.findAll().forEach(apartments::add);
-        return apartments;
+        return new ArrayList<>(aptRepo.findAll());
     }
 
     /**
