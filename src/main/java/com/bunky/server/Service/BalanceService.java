@@ -61,7 +61,7 @@ public class BalanceService {
     //    computes balance for this user
     public List<Debt> computeBalance(User user) {
         // needs to get this user apt
-        Apartment userApt = loginDao.aptByUser(user.getId());
+        Apartment userApt = loginDao.aptByUser(user.getUserId());
         // get from the apt the expenses not balanced, the refunds confirmed
         List<Expense> aptExpenses = getOpenExpenses(userApt.getId());
         List<Refund> aptRefunds = getConfirmedRefunds(userApt.getId());

@@ -25,17 +25,17 @@ public class User {
 
     public User(Integer userId, String name, String mail) {
         this(name, mail);
-        this.setId(userId);
+        this.setUserId(userId);
     }
 
     public User() {
     }
 
-    public Integer getId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setId(Integer id) {
+    public void setUserId(Integer id) {
         this.userId = id;
     }
 

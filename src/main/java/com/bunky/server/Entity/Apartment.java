@@ -1,7 +1,5 @@
 package com.bunky.server.Entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -48,5 +47,20 @@ public class Apartment {
 
     public void addUser(User user){
         users.add(user);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Apartment apartment = (Apartment) o;
+        return Objects.equals(name, apartment.name) &&
+                Objects.equals(aptId, apartment.aptId) &&
+                Objects.equals(users, apartment.users);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, aptId, users);
     }
 }

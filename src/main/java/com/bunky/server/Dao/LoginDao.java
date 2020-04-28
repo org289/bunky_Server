@@ -27,11 +27,11 @@ public class LoginDao {
     // USERS
 
     public Integer createUser(String mail, String username) {
-        return userRepo.save(new User(username, mail)).getId();
+        return userRepo.save(new User(username, mail)).getUserId();
     }
 
     public Integer getUserByMail(String mail) {
-        return userRepo.findOne(Example.of(new User(null, mail))).map(User::getId).orElse(null);
+        return userRepo.findOne(Example.of(new User(null, mail))).map(User::getUserId).orElse(null);
     }
 
     public List<User> getAllUsers() {
