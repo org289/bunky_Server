@@ -47,16 +47,6 @@ public class BalanceService {
         return balanceDao.getAllAptExpenses(aptId);
     }
 
-    public List<Expense> getOpenExpenses(UUID aptId) {
-        List<Expense> allExpenses = allAptExpenses(aptId);
-        // for each expense, if not balanced, add.
-        allExpenses.removeIf(Expense::isBalanced);
-        return allExpenses;
-    }
-
-    private List<Refund> getConfirmedRefunds(UUID id) {
-        return null;
-    }
 
     //    computes balance for this user
     public List<Debt> computeBalance(User user) {
@@ -81,11 +71,18 @@ public class BalanceService {
         return debts;
     }
 
-    // List<debt>  computeAllBalance(aptId)     --- return all users debit/credit (sum)
+    public HashMap<User, BigDecimal> computeSumExpensesPerUser(User user, LocalDate fromDate) {
+        //--- return all users debit/credit (sum)
+        Apartment apt = loginDao.aptByUser(user.getUserId());
+        HashMap<User, BigDecimal> sumExpenses = getUsersSumMap(apt.getUsers());
+        List<Expense> expensesFromDate = balanceDao.getAllAptExpensesFromDate(apt.getId(), fromDate);
+        calcSumUsersExpenses(expensesFromDate, sumExpenses);
+        return sumExpenses;
+    }
 
 
     private void subtractRefunds(HashMap<User, BigDecimal> userCreditDebt, List<Refund> aptRefunds) {
-        if (aptRefunds == null){
+        if (aptRefunds == null) {
             // if there are no refunds to subtract...
             return;
         }
@@ -119,18 +116,23 @@ public class BalanceService {
     public HashMap<User, BigDecimal> calcCreditDebt(List<Expense> aptExpenses, List<User> users) {
         BigDecimal aptSum = BigDecimal.ZERO;
         HashMap<User, BigDecimal> sumPerUser = getUsersSumMap(users);
+        calcSumUsersExpenses(aptExpenses, sumPerUser);
+        for (BigDecimal val : sumPerUser.values()) {
+            aptSum = aptSum.add(val);
+        }
+        BigDecimal userShare = aptSum.divide(BigDecimal.valueOf(users.size()), 2, BigDecimal.ROUND_DOWN);
+        sumPerUser.replaceAll((k, v) -> v.subtract(userShare));
+        return sumPerUser;
+    }
+
+    private void calcSumUsersExpenses(List<Expense> aptExpenses, HashMap<User, BigDecimal> sumPerUser) {
         if (aptExpenses != null) {
             // if there are no apt expenses the map should stay "0"
             for (Expense expense : aptExpenses) {
-                aptSum = aptSum.add(expense.getAmount());
-
                 User temp = expense.getUser();
                 sumPerUser.put(temp, sumPerUser.get(temp).add(expense.getAmount()));
             }
-            BigDecimal userShare = aptSum.divide(BigDecimal.valueOf(users.size()), 2, BigDecimal.ROUND_DOWN);
-            sumPerUser.replaceAll((k, v) -> v.subtract(userShare));
         }
-        return sumPerUser;
     }
 
     private HashMap<User, BigDecimal> getUsersSumMap(List<User> users) {
@@ -141,5 +143,15 @@ public class BalanceService {
         return sumPerUser;
     }
 
-}
+    private List<Expense> getOpenExpenses(UUID aptId) {
+        List<Expense> allExpenses = allAptExpenses(aptId);
+        // for each expense, if not balanced, add.
+        allExpenses.removeIf(Expense::isBalanced);
+        return allExpenses;
+    }
 
+    private List<Refund> getConfirmedRefunds(UUID id) {
+        return null;
+    }
+
+}

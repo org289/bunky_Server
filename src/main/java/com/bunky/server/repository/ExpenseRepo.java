@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,4 +19,6 @@ public interface ExpenseRepo extends JpaRepository<Expense, Integer> {
     @Query(value = "From Expense ex join ex.user u, Apartment a where u Member of a.users and a.aptId=:aptId")
     List<Expense> getAllByApartment(@Param("aptId") final UUID aptId);
 
+    @Query(value = "From Expense ex join ex.user u, Apartment a where u Member of a.users and a.aptId= :aptId and ex.date >= :fromDate")
+    List<Expense> getAllByApartmentFromDate(@Param("aptId") final UUID aptId, @Param("fromDate") final LocalDate fromDate);
 }
