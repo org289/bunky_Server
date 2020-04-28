@@ -50,7 +50,8 @@ public class BalanceService {
     public List<Expense> getOpenExpenses(UUID aptId) {
         List<Expense> allExpenses = allAptExpenses(aptId);
         // for each expense, if not balanced, add.
-        return new ArrayList<Expense>();
+        allExpenses.removeIf(Expense::isBalanced);
+        return allExpenses;
     }
 
     private List<Refund> getConfirmedRefunds(UUID id) {
@@ -84,6 +85,10 @@ public class BalanceService {
 
 
     private void subtractRefunds(HashMap<User, BigDecimal> userCreditDebt, List<Refund> aptRefunds) {
+        if (aptRefunds == null){
+            // if there are no refunds to subtract...
+            return;
+        }
         for (Refund refund : aptRefunds) {
             BigDecimal amount = refund.getAmount();
             BigDecimal currentGiverVal = userCreditDebt.get(refund.getGiver());
@@ -114,14 +119,17 @@ public class BalanceService {
     public HashMap<User, BigDecimal> calcCreditDebt(List<Expense> aptExpenses, List<User> users) {
         BigDecimal aptSum = BigDecimal.ZERO;
         HashMap<User, BigDecimal> sumPerUser = getUsersSumMap(users);
-        for (Expense expense : aptExpenses) {
-            aptSum = aptSum.add(expense.getAmount());
+        if (aptExpenses != null) {
+            // if there are no apt expenses the map should stay "0"
+            for (Expense expense : aptExpenses) {
+                aptSum = aptSum.add(expense.getAmount());
 
-            User temp = expense.getUser();
-            sumPerUser.put(temp, sumPerUser.get(temp).add(expense.getAmount()));
+                User temp = expense.getUser();
+                sumPerUser.put(temp, sumPerUser.get(temp).add(expense.getAmount()));
+            }
+            BigDecimal userShare = aptSum.divide(BigDecimal.valueOf(users.size()), 2, BigDecimal.ROUND_DOWN);
+            sumPerUser.replaceAll((k, v) -> v.subtract(userShare));
         }
-        BigDecimal userShare = aptSum.divide(BigDecimal.valueOf(users.size()), 2, BigDecimal.ROUND_DOWN);
-        sumPerUser.replaceAll((k, v) -> v.subtract(userShare));
         return sumPerUser;
     }
 

@@ -1,5 +1,6 @@
 package com.bunky.server.Controller;
 
+import com.bunky.server.DTO.Debt;
 import com.bunky.server.DTO.NewExpense;
 import com.bunky.server.Dao.LoginDao;
 import com.bunky.server.Entity.Expense;
@@ -41,6 +42,12 @@ public class BalanceController {
         BigDecimal amount = new BigDecimal(newExpense.getAmount());
         balanceService.createExpense(user, category, newExpense.getName(), date, amount);
     }
+
+    @RequestMapping(value = "/computeUserBalance", method = RequestMethod.POST)
+    public List<Debt> computeUserBalance(@RequestBody User user) {
+        return balanceService.computeBalance(user);
+    }
+
 
     //TODO: only for test
     @RequestMapping(value = "/getAptExpenses/{aptId}", method = RequestMethod.GET)

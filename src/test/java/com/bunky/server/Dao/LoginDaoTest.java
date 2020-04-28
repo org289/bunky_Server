@@ -1,50 +1,38 @@
-//package com.bunky.server.Dao;
+package com.bunky.server.Dao;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
+class LoginDaoTest {
+
+    @Autowired
+    private LoginDao loginDao;
+
+//    @MockBean
+//    private UserRepo userRepo;
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
+    private JdbcTemplate template;
+
+//    @Test
+//    public void testCreateUser() {
+//        User user = new User("or", "org289@gmail.com");
+//        User savedInDb = entityManager.persist(user);
+//        User getFromDb = userRepo.findById(savedInDb.getId()).orElse(null);
 //
-//import com.bunky.server.Entity.User;
-//import org.junit.ClassRule;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.boot.test.util.TestPropertyValues;
-//import org.springframework.context.ApplicationContextInitializer;
-//import org.springframework.context.ConfigurableApplicationContext;
-//import org.springframework.jdbc.core.JdbcTemplate;
-//import org.springframework.test.context.ContextConfiguration;
-//import org.springframework.test.context.junit.jupiter.SpringExtension;
-//import org.testcontainers.containers.PostgreSQLContainer;
-//
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-//@ExtendWith(SpringExtension.class)
-//@SpringBootTest
-//class LoginDaoTest {
-//
-//    @Autowired
-//    private LoginDao loginDao;
-//
-//    @Autowired
-//    private JdbcTemplate template;
-//
-////    @ClassRule
-////    public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:11.1")
-////            .withDatabaseName("integration-tests-db")
-////            .withUsername("sa")
-////            .withPassword("sa");
-////
-////    static class Initializer
-////            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-////        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-////            TestPropertyValues.of(
-////                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
-////                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
-////                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
-////            ).applyTo(configurableApplicationContext.getEnvironment());
-////        }
-////    }
-//
+//        assertEquals(savedInDb, getFromDb);
+//        assertEquals(user, getFromDb);
+//    }
+
 //    @Test
 //    void createUser() {
 //        Integer id = loginDao.createUser("org289@gmail.com", "or");
@@ -100,4 +88,4 @@
 //    @Test
 //    void loginApt() {
 //    }
-//}
+}

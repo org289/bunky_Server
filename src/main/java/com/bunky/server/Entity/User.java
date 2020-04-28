@@ -23,6 +23,11 @@ public class User {
         this.mail = mail;
     }
 
+    public User(Integer userId, String name, String mail) {
+        this(name, mail);
+        this.setId(userId);
+    }
+
     public User() {
     }
 
@@ -42,6 +47,7 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
     @Column(name = "mail", nullable = false)
     public String getMail() {
         return mail;
