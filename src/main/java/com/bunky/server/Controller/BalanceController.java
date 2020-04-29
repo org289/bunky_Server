@@ -50,11 +50,13 @@ public class BalanceController {
         balanceService.createExpense(user, category, newExpense.getName(), date, amount);
     }
 
+    // TODO: change the returning object
     @RequestMapping(value = "/computeUserBalance", method = RequestMethod.POST)
     public List<Debt> computeUserBalance(@RequestBody User user) {
         return balanceService.computeBalance(user);
     }
 
+    // TODO: change the returning object
     @RequestMapping(value = "/computeSumExpenses", method = RequestMethod.POST)
     public HashMap<User, BigDecimal> computeSumExpensesPerUser(@RequestBody SumExpensesFromDate data) {
        return balanceService.computeSumExpensesPerUser(data.getUser(), data.getDate());

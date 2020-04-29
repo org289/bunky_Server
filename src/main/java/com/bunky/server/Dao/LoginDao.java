@@ -26,12 +26,12 @@ public class LoginDao {
 
     // USERS
 
-    public Integer createUser(String mail, String username) {
-        return userRepo.save(new User(username, mail)).getUserId();
+    public User createUser(String mail, String username) {
+        return userRepo.save(new User(username, mail));
     }
 
-    public Integer getUserByMail(String mail) {
-        return userRepo.findOne(Example.of(new User(null, mail))).map(User::getUserId).orElse(null);
+    public User getUserByMail(String mail) {
+        return userRepo.findOne(Example.of(new User(null, mail))).orElse(null);
     }
 
     public List<User> getAllUsers() {
@@ -42,8 +42,8 @@ public class LoginDao {
         return userRepo.findById(userId).orElse(null);
     }
 
-    public Apartment aptByUser(Integer userId){
-        return aptRepo.aptByUser(userId);
+    public Apartment aptByUser(User user){
+        return aptRepo.aptByUser(user);
     }
 
     // APARTMENTS

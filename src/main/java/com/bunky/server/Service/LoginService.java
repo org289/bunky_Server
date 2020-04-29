@@ -21,11 +21,11 @@ public class LoginService {
 
     // USER
 
-    public Integer createUser(String mail, String username) {
+    public User createUser(String mail, String username) {
         return loginDao.createUser(mail, username);
     }
 
-    public Integer getUserByMail(String mail) {
+    public User getUserByMail(String mail) {
         return loginDao.getUserByMail(mail);
     }
 

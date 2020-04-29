@@ -3,11 +3,19 @@ package com.bunky.server.DTO;
 import com.bunky.server.Entity.User;
 
 public class NewApartment {
-    private Integer userId;
+    private User user;
     private String aptName;
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setAptName(String aptName) {
+        this.aptName = aptName;
     }
 
     public String getAptName() {

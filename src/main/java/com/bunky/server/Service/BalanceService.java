@@ -51,7 +51,7 @@ public class BalanceService {
     //    computes balance for this user
     public List<Debt> computeBalance(User user) {
         // needs to get this user apt
-        Apartment userApt = loginDao.aptByUser(user.getUserId());
+        Apartment userApt = loginDao.aptByUser(user);
         // get from the apt the expenses not balanced, the refunds confirmed
         List<Expense> aptExpenses = getOpenExpenses(userApt.getId());
         List<Refund> aptRefunds = getConfirmedRefunds(userApt.getId());
@@ -73,7 +73,7 @@ public class BalanceService {
 
     public HashMap<User, BigDecimal> computeSumExpensesPerUser(User user, LocalDate fromDate) {
         //--- return all users debit/credit (sum)
-        Apartment apt = loginDao.aptByUser(user.getUserId());
+        Apartment apt = loginDao.aptByUser(user);
         HashMap<User, BigDecimal> sumExpenses = getUsersSumMap(apt.getUsers());
         List<Expense> expensesFromDate = balanceDao.getAllAptExpensesFromDate(apt.getId(), fromDate);
         calcSumUsersExpenses(expensesFromDate, sumExpenses);
