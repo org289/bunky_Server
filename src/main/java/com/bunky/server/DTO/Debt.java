@@ -42,4 +42,12 @@ public class Debt {
     public boolean containUser(User user) {
         return user.equals(debtTo) || user.equals(debtFrom);
     }
+
+    public boolean isDebtToMe(User user){
+        return debtTo.equals(user);
+    }
+
+    public boolean isDebtFromMe(User user){
+        return debtFrom.equals(user);
+    }
 }

@@ -1,6 +1,7 @@
 package com.bunky.server.Controller;
 
 import com.bunky.server.DTO.Debt;
+import com.bunky.server.DTO.DebtCredit;
 import com.bunky.server.DTO.NewExpense;
 import com.bunky.server.DTO.SumExpensesFromDate;
 import com.bunky.server.Dao.LoginDao;
@@ -47,13 +48,12 @@ public class BalanceController {
         balanceService.createExpense(newExpense.getUser(), category, newExpense.getName(), newExpense.getDate(), newExpense.getAmount());
     }
 
-    // TODO: change the returning object
     @RequestMapping(value = "/computeUserBalance", method = RequestMethod.POST)
-    public List<Debt> computeUserBalance(@RequestBody User user) {
-        return balanceService.computeBalance(user);
+    public DebtCredit computeUserBalance(@RequestBody User user) {
+        List<Debt> totalDebts = balanceService.computeBalance(user);
+        return new DebtCredit(totalDebts, user);
     }
 
-    // TODO: change the returning object
     @RequestMapping(value = "/computeSumExpenses", method = RequestMethod.POST)
     public HashMap<User, BigDecimal> computeSumExpensesPerUser(@RequestBody SumExpensesFromDate data) {
        return balanceService.computeSumExpensesPerUser(data.getUser(), data.getDate());

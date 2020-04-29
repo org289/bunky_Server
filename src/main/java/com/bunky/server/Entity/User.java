@@ -71,5 +71,10 @@ public class User {
     public int hashCode() {
         return Objects.hash(userId, name, mail);
     }
+
+    @Override
+    public String toString() {
+        return  name;
+    }
 }
 
