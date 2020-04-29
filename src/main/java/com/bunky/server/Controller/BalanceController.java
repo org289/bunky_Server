@@ -43,11 +43,8 @@ public class BalanceController {
 
     @RequestMapping(value = "/addExpense", method = RequestMethod.POST)
     public void addExpense(@RequestBody NewExpense newExpense) {
-        User user = loginDao.getUserById(newExpense.getUserId());
         ExpenseCategory category = expenseCategoryRepo.findById(newExpense.getCategoryId()).orElse(null);
-        LocalDate date = LocalDate.parse(newExpense.getDate()); // TODO if format is "yyyy-MM-dd", fine. else need to add: DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        BigDecimal amount = new BigDecimal(newExpense.getAmount());
-        balanceService.createExpense(user, category, newExpense.getName(), date, amount);
+        balanceService.createExpense(newExpense.getUser(), category, newExpense.getName(), newExpense.getDate(), newExpense.getAmount());
     }
 
     // TODO: change the returning object
@@ -64,15 +61,17 @@ public class BalanceController {
 
 
     //TODO: only for test
-    @RequestMapping(value = "/getAptExpenses/{aptId}", method = RequestMethod.GET)
-    public List<Expense> aptExpenses(@PathVariable UUID aptId) {
+    @RequestMapping(value = "/getAllAptExpenses/{user}", method = RequestMethod.GET)
+    public List<Expense> aptExpenses(@PathVariable User user) {
+        UUID aptId = loginDao.aptByUser(user).getId();
         return balanceService.allAptExpenses(aptId);
     }
 
     //TODO: only for test
-    @RequestMapping(value = "/getAptExpenses/{aptId}/{fromDate}", method = RequestMethod.GET)
-    public List<Expense> aptExpensesFromDate(@PathVariable UUID aptId, @PathVariable String fromDate) {
+    @RequestMapping(value = "/getAptExpenses", method = RequestMethod.GET)
+    public List<Expense> aptExpensesFromDate(User user, String fromDate) {
         LocalDate date = LocalDate.parse(fromDate);
+        UUID aptId = loginDao.aptByUser(user).getId();
         return expenseRepo.getAllByApartmentFromDate(aptId, date);
     }
 

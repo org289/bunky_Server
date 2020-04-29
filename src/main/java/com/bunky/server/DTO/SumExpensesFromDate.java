@@ -20,7 +20,7 @@ public class SumExpensesFromDate {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = LocalDate.parse(date);
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }
