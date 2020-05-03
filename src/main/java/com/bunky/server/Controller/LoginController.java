@@ -7,6 +7,7 @@ import com.bunky.server.Dao.LoginDao;
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,7 +49,7 @@ public class LoginController {
         return loginDao.getAllUsers();
     }
 
-    @RequestMapping(value = "/testSendingUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/testSendingUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody User newUser) {
         System.out.println(newUser);
     }
