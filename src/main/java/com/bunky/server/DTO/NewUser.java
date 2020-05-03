@@ -11,4 +11,12 @@ public class NewUser {
     public String getMail() {
         return mail;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }

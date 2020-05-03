@@ -48,6 +48,10 @@ public class LoginController {
         return loginDao.getAllUsers();
     }
 
+    @RequestMapping(value = "/testSendingUser", method = RequestMethod.POST)
+    public void createUser(@RequestBody User newUser) {
+        System.out.println(newUser);
+    }
 
 
     // APARTMENT
