@@ -3,6 +3,7 @@ package com.bunky.server.Controller;
 import com.bunky.server.DTO.NewApartment;
 import com.bunky.server.DTO.NewUser;
 import com.bunky.server.DTO.RegisterToApt;
+import com.bunky.server.DTO.twoUsers;
 import com.bunky.server.Dao.LoginDao;
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
@@ -50,8 +51,10 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/testSendingUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createUser(@RequestBody User newUser) {
-        System.out.println(newUser);
+    public void createUser(@RequestBody twoUsers newUser) {
+        System.out.println("success!");
+        System.out.println("user1: "+newUser.getUser1());
+        System.out.println("user2: "+newUser.getUser2());
     }
 
 
