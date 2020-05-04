@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class LoginController {
@@ -50,18 +49,19 @@ public class LoginController {
         return loginDao.getAllUsers();
     }
 
+    // TODO: only for tests (delete)
     @RequestMapping(value = "/testSendingUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody twoUsers newUser) {
         System.out.println("success!");
-        System.out.println("user1: "+newUser.getUser1());
-        System.out.println("user2: "+newUser.getUser2());
+        System.out.println("user1: " + newUser.getUser1());
+        System.out.println("user2: " + newUser.getUser2());
     }
 
 
     // APARTMENT
 
     @RequestMapping(value = "/newApt", method = RequestMethod.POST)
-    public UUID createApartment(@RequestBody NewApartment newApartment) {
+    public Integer createApartment(@RequestBody NewApartment newApartment) {
         return loginDao.createApt(newApartment.getUser(), newApartment.getAptName());
     }
 

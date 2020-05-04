@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class BalanceDao {
@@ -23,11 +22,11 @@ public class BalanceDao {
         expenseRepo.save(expense);
     }
 
-    public List<Expense> getAllAptExpenses(UUID aptId) {
+    public List<Expense> getAllAptExpenses(Integer aptId) {
         return expenseRepo.getAllByApartment(aptId);
     }
 
-    public List<Expense> getAllAptExpensesFromDate(UUID aptId, LocalDate fromDate) {
+    public List<Expense> getAllAptExpensesFromDate(Integer aptId, LocalDate fromDate) {
         return expenseRepo.getAllByApartmentFromDate(aptId, fromDate);
     }
 }

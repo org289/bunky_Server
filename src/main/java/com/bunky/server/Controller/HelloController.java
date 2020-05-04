@@ -1,8 +1,8 @@
 package com.bunky.server.Controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
@@ -21,5 +21,7 @@ public class HelloController {
 	public String helloTest() {
 		return "My Test is working!";
 	}
+
+
 
 }

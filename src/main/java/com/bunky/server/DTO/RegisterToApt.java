@@ -2,17 +2,15 @@ package com.bunky.server.DTO;
 
 import com.bunky.server.Entity.User;
 
-import java.util.UUID;
-
 public class RegisterToApt {
-    UUID aptCode;
+    Integer aptCode;
     User user;
 
-    public UUID getAptCode() {
+    public Integer getAptCode() {
         return aptCode;
     }
 
-    public void setAptCode(UUID aptCode) {
+    public void setAptCode(Integer aptCode) {
         this.aptCode = aptCode;
     }
 

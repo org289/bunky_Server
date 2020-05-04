@@ -6,19 +6,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "apartments")
 public class Apartment {
     private String name;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID aptId;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "apt_generator")
+    @SequenceGenerator(name = "apt_generator", sequenceName = "apt_seq", initialValue = 10000)
+    private Integer aptId;
 
     @OneToMany
     @JoinColumn(name = "apt_id")
@@ -37,7 +38,7 @@ public class Apartment {
         return name;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return aptId;
     }
 

@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class BalanceController {
@@ -45,7 +44,7 @@ public class BalanceController {
     @RequestMapping(value = "/addExpense", method = RequestMethod.POST)
     public void addExpense(@RequestBody NewExpense newExpense) {
         ExpenseCategory category = expenseCategoryRepo.findById(newExpense.getCategoryId()).orElse(null);
-        balanceService.createExpense(newExpense.getUser(), category, newExpense.getName(), newExpense.getDate(), newExpense.getAmount());
+        balanceService.createExpense(newExpense.getUser(), category, newExpense.getTitle(), newExpense.getDate(), newExpense.getAmount());
     }
 
     @RequestMapping(value = "/computeUserBalance", method = RequestMethod.POST)
@@ -63,15 +62,16 @@ public class BalanceController {
     //TODO: only for test
     @RequestMapping(value = "/getAllAptExpenses/{user}", method = RequestMethod.GET)
     public List<Expense> aptExpenses(@PathVariable User user) {
-        UUID aptId = loginDao.aptByUser(user).getId();
+        Integer aptId = loginDao.aptByUser(user).getId();
         return balanceService.allAptExpenses(aptId);
     }
+
 
     //TODO: only for test
     @RequestMapping(value = "/getAptExpenses", method = RequestMethod.GET)
     public List<Expense> aptExpensesFromDate(User user, String fromDate) {
         LocalDate date = LocalDate.parse(fromDate);
-        UUID aptId = loginDao.aptByUser(user).getId();
+        Integer aptId = loginDao.aptByUser(user).getId();
         return expenseRepo.getAllByApartmentFromDate(aptId, date);
     }
 

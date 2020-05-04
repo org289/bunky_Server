@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class NewExpense {
     private User user;
     private Integer categoryId;
-    private String name;
+    private String title;
     private LocalDate date;
     private BigDecimal amount;
 
@@ -17,8 +17,8 @@ public class NewExpense {
         return categoryId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public LocalDate getDate() {
@@ -41,8 +41,8 @@ public class NewExpense {
         this.categoryId = categoryId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     public BigDecimal getAmount() {

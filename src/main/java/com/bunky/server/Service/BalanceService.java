@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class BalanceService {
@@ -43,7 +42,7 @@ public class BalanceService {
 
     // * createRefund(...)
 
-    public List<Expense> allAptExpenses(UUID aptId) {
+    public List<Expense> allAptExpenses(Integer aptId) {
         return balanceDao.getAllAptExpenses(aptId);
     }
 
@@ -143,14 +142,14 @@ public class BalanceService {
         return sumPerUser;
     }
 
-    private List<Expense> getOpenExpenses(UUID aptId) {
+    private List<Expense> getOpenExpenses(Integer aptId) {
         List<Expense> allExpenses = allAptExpenses(aptId);
         // for each expense, if not balanced, add.
         allExpenses.removeIf(Expense::isBalanced);
         return allExpenses;
     }
 
-    private List<Refund> getConfirmedRefunds(UUID id) {
+    private List<Refund> getConfirmedRefunds(Integer id) {
         return null;
     }
 

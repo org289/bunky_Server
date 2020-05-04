@@ -1,24 +1,23 @@
 package com.bunky.server.Entity;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "refunds")
 public class Refund {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "refund_generator")
+    @SequenceGenerator(name = "refund_generator", sequenceName = "refund_seq" )
     private Integer refundId;
 
     @ManyToOne
