@@ -4,7 +4,7 @@ import com.bunky.server.DTO.Debt;
 import com.bunky.server.DTO.DebtCredit;
 import com.bunky.server.DTO.NewExpense;
 import com.bunky.server.DTO.SumExpensesFromDate;
-import com.bunky.server.Dao.LoginDao;
+import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
 import com.bunky.server.Entity.User;
@@ -27,7 +27,7 @@ import java.util.List;
 public class BalanceController {
 
     private final BalanceService balanceService;
-    private final LoginDao loginDao;
+    private final UserAptDao userAptDao;
     private final ExpenseCategoryRepo expenseCategoryRepo;
 
     //TODO - delete (for tests)
@@ -35,10 +35,10 @@ public class BalanceController {
     private ExpenseRepo expenseRepo;
 
     @Autowired
-    public BalanceController(BalanceService balanceService, LoginDao loginDao,ExpenseCategoryRepo expenseCategoryRepo) {
+    public BalanceController(BalanceService balanceService, UserAptDao userAptDao, ExpenseCategoryRepo expenseCategoryRepo) {
         this.balanceService = balanceService;
         this.expenseCategoryRepo = expenseCategoryRepo;
-        this.loginDao = loginDao;
+        this.userAptDao = userAptDao;
     }
 
     @RequestMapping(value = "/addExpense", method = RequestMethod.POST)
@@ -58,11 +58,15 @@ public class BalanceController {
        return balanceService.computeSumExpensesPerUser(data.getUser(), data.getDate());
     }
 
+    @RequestMapping(value = "/computeSumExpensesPerCat", method = RequestMethod.POST)
+    public HashMap<ExpenseCategory, BigDecimal> computeSumExpensesPerCategory(@RequestBody SumExpensesFromDate data) {
+        return balanceService.computeSumExpensesPerCategory(data.getUser(), data.getDate());
+    }
 
     //TODO: only for test
     @RequestMapping(value = "/getAllAptExpenses/{user}", method = RequestMethod.GET)
     public List<Expense> aptExpenses(@PathVariable User user) {
-        Integer aptId = loginDao.aptByUser(user).getId();
+        Integer aptId = userAptDao.aptByUser(user).getId();
         return balanceService.allAptExpenses(aptId);
     }
 
@@ -71,7 +75,7 @@ public class BalanceController {
     @RequestMapping(value = "/getAptExpenses", method = RequestMethod.GET)
     public List<Expense> aptExpensesFromDate(User user, String fromDate) {
         LocalDate date = LocalDate.parse(fromDate);
-        Integer aptId = loginDao.aptByUser(user).getId();
+        Integer aptId = userAptDao.aptByUser(user).getId();
         return expenseRepo.getAllByApartmentFromDate(aptId, date);
     }
 

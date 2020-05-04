@@ -2,6 +2,8 @@ package com.bunky.server.Dao;
 
 
 import com.bunky.server.Entity.Expense;
+import com.bunky.server.Entity.ExpenseCategory;
+import com.bunky.server.repository.ExpenseCategoryRepo;
 import com.bunky.server.repository.ExpenseRepo;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +14,15 @@ import java.util.List;
 public class BalanceDao {
 
     private final ExpenseRepo expenseRepo;
+    private final ExpenseCategoryRepo expenseCategoryRepo;
 
-    public BalanceDao(ExpenseRepo expenseRepo) {
+    public BalanceDao(ExpenseRepo expenseRepo, ExpenseCategoryRepo expenseCategoryRepo) {
         this.expenseRepo = expenseRepo;
+        this.expenseCategoryRepo = expenseCategoryRepo;
 
     }
 
-    public Expense createExpense(Expense expense){
+    public Expense createExpense(Expense expense) {
         return expenseRepo.save(expense);
     }
 
@@ -28,5 +32,9 @@ public class BalanceDao {
 
     public List<Expense> getAllAptExpensesFromDate(Integer aptId, LocalDate fromDate) {
         return expenseRepo.getAllByApartmentFromDate(aptId, fromDate);
+    }
+
+    public List<ExpenseCategory> getListOfExpenseCategory() {
+        return expenseCategoryRepo.findAll();
     }
 }

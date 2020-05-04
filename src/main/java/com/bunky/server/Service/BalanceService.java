@@ -2,7 +2,7 @@ package com.bunky.server.Service;
 
 import com.bunky.server.DTO.Debt;
 import com.bunky.server.Dao.BalanceDao;
-import com.bunky.server.Dao.LoginDao;
+import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
@@ -22,12 +22,12 @@ import java.util.Map;
 public class BalanceService {
 
     private BalanceDao balanceDao;
-    private LoginDao loginDao;
+    private UserAptDao userAptDao;
 
     @Autowired
-    public BalanceService(BalanceDao balanceDao, LoginDao loginDao) {
+    public BalanceService(BalanceDao balanceDao, UserAptDao userAptDao) {
         this.balanceDao = balanceDao;
-        this.loginDao = loginDao;
+        this.userAptDao = userAptDao;
     }
 
     public BalanceService() {
@@ -50,7 +50,7 @@ public class BalanceService {
     //    computes balance for this user
     public List<Debt> computeBalance(User user) {
         // needs to get this user apt
-        Apartment userApt = loginDao.aptByUser(user);
+        Apartment userApt = userAptDao.aptByUser(user);
         // get from the apt the expenses not balanced, the refunds confirmed
         List<Expense> aptExpenses = getOpenExpenses(userApt.getId());
         List<Refund> aptRefunds = getConfirmedRefunds(userApt.getId());
@@ -72,10 +72,19 @@ public class BalanceService {
 
     public HashMap<User, BigDecimal> computeSumExpensesPerUser(User user, LocalDate fromDate) {
         //--- return all users debit/credit (sum)
-        Apartment apt = loginDao.aptByUser(user);
+        Apartment apt = userAptDao.aptByUser(user);
         HashMap<User, BigDecimal> sumExpenses = getUsersSumMap(apt.getUsers());
         List<Expense> expensesFromDate = balanceDao.getAllAptExpensesFromDate(apt.getId(), fromDate);
         calcSumUsersExpenses(expensesFromDate, sumExpenses);
+        return sumExpenses;
+    }
+
+    public HashMap<ExpenseCategory, BigDecimal> computeSumExpensesPerCategory(User user, LocalDate fromDate) {
+        //--- return sum of expenses by category
+        Apartment apt = userAptDao.aptByUser(user);
+        HashMap<ExpenseCategory, BigDecimal> sumExpenses = getCategorySumMap();
+        List<Expense> expensesFromDate = balanceDao.getAllAptExpensesFromDate(apt.getId(), fromDate);
+        calcSumCatExpenses(expensesFromDate, sumExpenses);
         return sumExpenses;
     }
 
@@ -134,12 +143,31 @@ public class BalanceService {
         }
     }
 
+    private void calcSumCatExpenses(List<Expense> aptExpenses, HashMap<ExpenseCategory, BigDecimal> sumPerCat) {
+        if (aptExpenses != null) {
+            // if there are no apt expenses the map should stay "0"
+            for (Expense expense : aptExpenses) {
+                ExpenseCategory category = expense.getExpenseCategory();
+                sumPerCat.put(category, sumPerCat.get(category).add(expense.getAmount()));
+            }
+        }
+    }
+
     private HashMap<User, BigDecimal> getUsersSumMap(List<User> users) {
         HashMap<User, BigDecimal> sumPerUser = new HashMap<User, BigDecimal>();
         for (User user : users) {
             sumPerUser.put(user, BigDecimal.ZERO);
         }
         return sumPerUser;
+    }
+
+    private HashMap<ExpenseCategory, BigDecimal> getCategorySumMap() {
+        HashMap<ExpenseCategory, BigDecimal> sumPerCat = new HashMap<>();
+        List<ExpenseCategory> catNames = balanceDao.getListOfExpenseCategory();
+        for (ExpenseCategory category : catNames) {
+            sumPerCat.put(category, BigDecimal.ZERO);
+        }
+        return sumPerCat;
     }
 
     private List<Expense> getOpenExpenses(Integer aptId) {

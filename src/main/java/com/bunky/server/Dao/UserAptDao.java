@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LoginDao {
+public class UserAptDao {
 
     private final UserRepo userRepo;
     private final AptRepo aptRepo;
 
     @Autowired
-    public LoginDao(UserRepo userRepo, AptRepo aptRepo) {
+    public UserAptDao(UserRepo userRepo, AptRepo aptRepo) {
         this.userRepo = userRepo;
         this.aptRepo = aptRepo;
     }
@@ -41,7 +41,7 @@ public class LoginDao {
         return userRepo.findById(userId).orElse(null);
     }
 
-    public Apartment aptByUser(User user){
+    public Apartment aptByUser(User user) {
         return aptRepo.aptByUser(user);
     }
 
@@ -68,6 +68,4 @@ public class LoginDao {
             }
         }
     }
-
-
 }

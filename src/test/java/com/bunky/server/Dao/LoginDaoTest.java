@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class LoginDaoTest {
 
     @Autowired
-    private LoginDao loginDao;
+    private UserAptDao userAptDao;
 
 //    @MockBean
 //    private UserRepo userRepo;

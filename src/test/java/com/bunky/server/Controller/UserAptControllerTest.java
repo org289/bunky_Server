@@ -1,6 +1,6 @@
 package com.bunky.server.Controller;
 
-import com.bunky.server.Dao.LoginDao;
+import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.repository.UserRepo;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Collections;
 
 //@ExtendWith((SpringExtension.class))
-@WebMvcTest(LoginController.class)
-class LoginControllerTest {
+@WebMvcTest(UserAptController.class)
+class UserAptControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -25,7 +25,7 @@ class LoginControllerTest {
     UserRepo userRepo;
 
     @MockBean
-    LoginDao loginDao;
+    UserAptDao userAptDao;
 
 
 //    @Test
@@ -43,13 +43,13 @@ class LoginControllerTest {
     @Test
     void getAllUsers() throws Exception {
         // UNIT-TEST
-        Mockito.when(loginDao.getAllUsers()).thenReturn(Collections.emptyList());
+        Mockito.when(userAptDao.getAllUsers()).thenReturn(Collections.emptyList());
         RequestBuilder request = MockMvcRequestBuilders.get("/users");
         MvcResult result = mvc.perform(request).andReturn();
 
         System.out.println("The result is: " + result);
 
-        Mockito.verify(loginDao).getAllUsers();
+        Mockito.verify(userAptDao).getAllUsers();
 
 
     }

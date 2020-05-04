@@ -4,7 +4,7 @@ import com.bunky.server.DTO.NewApartment;
 import com.bunky.server.DTO.NewUser;
 import com.bunky.server.DTO.RegisterToApt;
 import com.bunky.server.DTO.twoUsers;
-import com.bunky.server.Dao.LoginDao;
+import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class LoginController {
+public class UserAptController {
 
-    private final LoginDao loginDao;
+    private final UserAptDao userAptDao;
 
     @Autowired
-    public LoginController(LoginDao loginDao) {
-        this.loginDao = loginDao;
+    public UserAptController(UserAptDao userAptDao) {
+        this.userAptDao = userAptDao;
     }
 
     // USER
@@ -31,28 +31,28 @@ public class LoginController {
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
     public User createUser(@RequestBody NewUser newUser) {
         String newUserMail = newUser.getMail();
-        if (loginDao.getUserByMail(newUserMail) != null){
+        if (userAptDao.getUserByMail(newUserMail) != null) {
             // can't create new user because this mail already exists in DB
             // TODO: check what to throw
             return null;
         }
-        return loginDao.createUser(newUserMail, newUser.getName());
+        return userAptDao.createUser(newUserMail, newUser.getName());
     }
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.GET)
     public User loginUser(String mail) {
-        return loginDao.getUserByMail(mail);
+        return userAptDao.getUserByMail(mail);
     }
 
     @RequestMapping(value = "/aptByUser", method = RequestMethod.GET)
     public Apartment aptByUser(User user) {
-        return loginDao.aptByUser(user);
+        return userAptDao.aptByUser(user);
     }
 
     // TODO: only for tests (delete)
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> getAllUsers() {
-        return loginDao.getAllUsers();
+        return userAptDao.getAllUsers();
     }
 
     // TODO: only for tests (delete)
@@ -63,22 +63,28 @@ public class LoginController {
         System.out.println("user2: " + newUser.getUser2());
     }
 
+    @RequestMapping(value = "/allUsersOfAptByUser", method = RequestMethod.GET)
+    public List<User> getAllUsersOfAptByUser(User user) {
+        return userAptDao.aptByUser(user).getUsers();
+    }
+
 
     // APARTMENT
 
     @RequestMapping(value = "/newApt", method = RequestMethod.POST)
     public Integer createApartment(@RequestBody NewApartment newApartment) {
-        return loginDao.createApt(newApartment.getUser(), newApartment.getAptName());
+        return userAptDao.createApt(newApartment.getUser(), newApartment.getAptName());
     }
 
     @RequestMapping(value = "/loginApt", method = RequestMethod.PUT)
     public void loginApartment(@RequestBody RegisterToApt registerToApt) {
-        loginDao.loginApt(registerToApt.getAptCode(), registerToApt.getUser());
+        userAptDao.loginApt(registerToApt.getAptCode(), registerToApt.getUser());
     }
 
     // TODO: only for tests (delete)
     @RequestMapping(value = "/apts", method = RequestMethod.GET)
     public List<Apartment> getAllApt() {
-        return loginDao.getAllApt();
+        return userAptDao.getAllApt();
     }
+
 }
