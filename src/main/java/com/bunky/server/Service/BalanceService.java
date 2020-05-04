@@ -33,11 +33,11 @@ public class BalanceService {
     public BalanceService() {
     }
 
-    public void createExpense(User user, ExpenseCategory expenseCategory, String name, LocalDate date, BigDecimal amount) {
+    public Expense createExpense(User user, ExpenseCategory expenseCategory, String name, LocalDate date, BigDecimal amount) {
         if (name == null) {
             name = expenseCategory.getName();
         }
-        balanceDao.createExpense(new Expense(user, expenseCategory, name, date, amount));
+        return balanceDao.createExpense(new Expense(user, expenseCategory, name, date, amount));
     }
 
     // * createRefund(...)

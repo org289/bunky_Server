@@ -42,9 +42,9 @@ public class BalanceController {
     }
 
     @RequestMapping(value = "/addExpense", method = RequestMethod.POST)
-    public void addExpense(@RequestBody NewExpense newExpense) {
+    public Expense addExpense(@RequestBody NewExpense newExpense) {
         ExpenseCategory category = expenseCategoryRepo.findById(newExpense.getCategoryId()).orElse(null);
-        balanceService.createExpense(newExpense.getUser(), category, newExpense.getTitle(), newExpense.getDate(), newExpense.getAmount());
+        return balanceService.createExpense(newExpense.getUser(), category, newExpense.getTitle(), newExpense.getDate(), newExpense.getAmount());
     }
 
     @RequestMapping(value = "/computeUserBalance", method = RequestMethod.POST)

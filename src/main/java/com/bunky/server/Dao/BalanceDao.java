@@ -18,8 +18,8 @@ public class BalanceDao {
 
     }
 
-    public void createExpense(Expense expense){
-        expenseRepo.save(expense);
+    public Expense createExpense(Expense expense){
+        return expenseRepo.save(expense);
     }
 
     public List<Expense> getAllAptExpenses(Integer aptId) {
