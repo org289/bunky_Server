@@ -31,7 +31,7 @@ public class LoginController {
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
     public User createUser(@RequestBody NewUser newUser) {
         String newUserMail = newUser.getMail();
-        if (loginDao.getUserByMail(newUserMail) == null){
+        if (loginDao.getUserByMail(newUserMail) != null){
             // can't create new user because this mail already exists in DB
             // TODO: check what to throw
             return null;
