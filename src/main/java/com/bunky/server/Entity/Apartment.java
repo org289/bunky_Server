@@ -31,6 +31,11 @@ public class Apartment {
         this.users.add(userAdmin);
     }
 
+    public Apartment(Integer aptId, String name, User userAdmin) {
+        this(name, userAdmin);
+        setAptId(aptId);
+    }
+
     public Apartment() {
     }
 
@@ -48,6 +53,14 @@ public class Apartment {
 
     public void addUser(User user){
         users.add(user);
+    }
+
+    public Integer getAptId() {
+        return aptId;
+    }
+
+    public void setAptId(Integer aptId) {
+        this.aptId = aptId;
     }
 
     @Override

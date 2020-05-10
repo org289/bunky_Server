@@ -55,17 +55,22 @@ public class UserAptDao {
         return new ArrayList<>(aptRepo.findAll());
     }
 
-    /**
-     * add new user to existing apartment
-     */
-    public void loginApt(Integer aptCode, User userID) {
-        List<Apartment> apts = getAllApt();
-        for (Apartment apartment : apts) {
-            if (apartment.getId().equals(aptCode)) {
-                apartment.addUser(userID);
-                aptRepo.save(apartment);
-                break;
-            }
+
+    public Apartment loginApt(Integer aptCode, User userID) {
+        Apartment apartment = aptRepo.findOne(Example.of(new Apartment(aptCode, null, null))).orElse(null);
+        if(apartment != null) {
+            apartment.addUser(userID);
+            aptRepo.save(apartment);
         }
+        return apartment;
+
+//        List<Apartment> apts = getAllApt();
+//        for (Apartment apartment : apts) {
+//            if (apartment.getId().equals(aptCode)) {
+//                apartment.addUser(userID);
+//                aptRepo.save(apartment);
+//                break;
+//            }
+//        }
     }
 }

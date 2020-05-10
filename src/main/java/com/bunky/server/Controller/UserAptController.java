@@ -41,6 +41,7 @@ public class UserAptController {
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.GET)
     public User loginUser(String mail) {
+        // TODO: return user + boolean represents "is the user a member of an aprtment or not"
         return userAptDao.getUserByMail(mail);
     }
 
@@ -77,8 +78,12 @@ public class UserAptController {
     }
 
     @RequestMapping(value = "/loginApt", method = RequestMethod.PUT)
-    public void loginApartment(@RequestBody RegisterToApt registerToApt) {
-        userAptDao.loginApt(registerToApt.getAptCode(), registerToApt.getUser());
+    public Integer loginApartment(@RequestBody RegisterToApt registerToApt) {
+        Apartment apt = userAptDao.loginApt(registerToApt.getAptCode(), registerToApt.getUser());
+        if (apt != null){
+            return apt.getAptId();
+        }
+        return null;
     }
 
     // TODO: only for tests (delete)
