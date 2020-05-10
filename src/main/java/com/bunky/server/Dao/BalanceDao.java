@@ -5,6 +5,7 @@ import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
 import com.bunky.server.repository.ExpenseCategoryRepo;
 import com.bunky.server.repository.ExpenseRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,13 +17,14 @@ public class BalanceDao {
     private final ExpenseRepo expenseRepo;
     private final ExpenseCategoryRepo expenseCategoryRepo;
 
+    @Autowired
     public BalanceDao(ExpenseRepo expenseRepo, ExpenseCategoryRepo expenseCategoryRepo) {
         this.expenseRepo = expenseRepo;
         this.expenseCategoryRepo = expenseCategoryRepo;
 
     }
 
-    public Expense createExpense(Expense expense) {
+    public Expense createExpense(Expense expense){
         return expenseRepo.save(expense);
     }
 

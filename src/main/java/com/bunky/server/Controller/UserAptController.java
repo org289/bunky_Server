@@ -49,6 +49,11 @@ public class UserAptController {
         return userAptDao.aptByUser(user);
     }
 
+    @RequestMapping(value = "/allUsersOfAptByUser", method = RequestMethod.GET)
+    public List<User> getAllUsersOfAptByUser(User user) {
+        return userAptDao.aptByUser(user).getUsers();
+    }
+
     // TODO: only for tests (delete)
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> getAllUsers() {
@@ -61,11 +66,6 @@ public class UserAptController {
         System.out.println("success!");
         System.out.println("user1: " + newUser.getUser1());
         System.out.println("user2: " + newUser.getUser2());
-    }
-
-    @RequestMapping(value = "/allUsersOfAptByUser", method = RequestMethod.GET)
-    public List<User> getAllUsersOfAptByUser(User user) {
-        return userAptDao.aptByUser(user).getUsers();
     }
 
 

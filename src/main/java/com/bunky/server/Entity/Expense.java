@@ -18,7 +18,7 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
     @SequenceGenerator(name = "expense_generator", sequenceName = "expense_seq" )
-    private Integer expanseId;
+    private Integer expenseId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,7 +28,7 @@ public class Expense {
     @JoinColumn(name = "category_id")
     private ExpenseCategory expenseCategory;
 
-    private String name;
+    private String title;
 
     private LocalDate date;
 
@@ -41,25 +41,14 @@ public class Expense {
     public Expense() {
     }
 
-//    public Expense(NewExpense newExpense){
-//        this.user = newExpense.getUser();
-//        this.expenseCategory = newExpense.getExpenseCategory();
-//        this.name = newExpense.getName();
-//        this.date = newExpense.getDate();
-//        this.amount = newExpense.getAmount();
-//        this.balanced = false;
-//    }
-
-    public Expense(User user, ExpenseCategory expenseCategory, String name, LocalDate date, BigDecimal amount) {
+    public Expense(User user, ExpenseCategory expenseCategory, String title, LocalDate date, BigDecimal amount) {
         this.user = user;
         this.expenseCategory = expenseCategory;
-        this.name = name;
+        this.title = title;
         this.date = date;
         this.amount = amount;
         this.balanced = false;
     }
-
-
 
     public User getUser() {
         return user;
@@ -101,19 +90,19 @@ public class Expense {
         this.balanced = balanced;
     }
 
-    public Integer getExpanseId() {
-        return expanseId;
+    public Integer getExpenseId() {
+        return expenseId;
     }
 
-    public void setExpanseId(Integer expanseId) {
-        this.expanseId = expanseId;
+    public void setExpenseId(Integer expanseId) {
+        this.expenseId = expanseId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 }
