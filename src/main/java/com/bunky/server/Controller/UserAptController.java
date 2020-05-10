@@ -1,5 +1,6 @@
 package com.bunky.server.Controller;
 
+import com.bunky.server.DTO.LoginUser;
 import com.bunky.server.DTO.NewApartment;
 import com.bunky.server.DTO.NewUser;
 import com.bunky.server.DTO.RegisterToApt;
@@ -40,14 +41,26 @@ public class UserAptController {
     }
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.GET)
-    public User loginUser(String mail) {
-        // TODO: return user + boolean represents "is the user a member of an aprtment or not"
-        return userAptDao.getUserByMail(mail);
+    public LoginUser loginUser(String mail) {
+        User user =  userAptDao.getUserByMail(mail);
+        boolean isAMember = false;
+        if(user != null){
+            // check if user is member of an apartment
+            if(userAptDao.aptByUser(user) != null){
+                isAMember = true;
+            }
+            return new LoginUser(user, isAMember);
+        }
+        return null;
     }
 
-    @RequestMapping(value = "/aptByUser", method = RequestMethod.GET)
-    public Apartment aptByUser(User user) {
-        return userAptDao.aptByUser(user);
+    @RequestMapping(value = "/aptIdByUser", method = RequestMethod.GET)
+    public Integer aptIdByUser(User user) {
+        Apartment apt =  userAptDao.aptByUser(user);
+        if (apt != null){
+            return apt.getAptId();
+        }
+        return null;
     }
 
     @RequestMapping(value = "/allUsersOfAptByUser", method = RequestMethod.GET)
