@@ -85,4 +85,9 @@ public class BalanceController {
         return expenseRepo.getAllByApartmentFromDate(aptId, date);
     }
 
+    @RequestMapping(value = "/getAptExpensesWithLimit", method = RequestMethod.GET)
+    public List<Expense> aptExpensesLimitParam(User user, int limit) {
+        Integer aptId = userAptDao.aptByUser(user).getId();
+        return balanceService.getExpensesWithLimit(aptId, limit);
+    }
 }

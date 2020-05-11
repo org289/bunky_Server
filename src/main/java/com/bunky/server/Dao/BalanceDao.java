@@ -6,6 +6,8 @@ import com.bunky.server.Entity.ExpenseCategory;
 import com.bunky.server.repository.ExpenseCategoryRepo;
 import com.bunky.server.repository.ExpenseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -46,5 +48,9 @@ public class BalanceDao {
 
     public void deleteExpense(Expense expense) {
         expenseRepo.delete(expense);
+    }
+
+    public List<Expense> getExpensesWithLimit(Integer aptID, int limit) {
+        return expenseRepo.getAllByApartmentByLimit(aptID, PageRequest.of(0, limit, Sort.by("date").descending()));
     }
 }

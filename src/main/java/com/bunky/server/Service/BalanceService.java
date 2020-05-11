@@ -189,4 +189,8 @@ public class BalanceService {
         }
         return null;
     }
+
+    public List<Expense> getExpensesWithLimit(Integer aptID, int limit) {
+        return balanceDao.getExpensesWithLimit(aptID, limit);
+    }
 }
