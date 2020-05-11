@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense_generator")
     @SequenceGenerator(name = "expense_generator", sequenceName = "expense_seq" )
     private Integer expenseId;
 

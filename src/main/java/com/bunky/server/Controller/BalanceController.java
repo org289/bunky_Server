@@ -12,7 +12,6 @@ import com.bunky.server.Service.BalanceService;
 import com.bunky.server.repository.ExpenseCategoryRepo;
 import com.bunky.server.repository.ExpenseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +46,13 @@ public class BalanceController {
         return balanceService.createExpense(newExpense.getUser(), category, newExpense.getTitle(), newExpense.getDate(), newExpense.getAmount());
     }
 
+    // TODO: gets expense ID only?
+    // TODO: type returned?
+    @RequestMapping(value = "/removeExpense", method = RequestMethod.PUT)
+    public Integer removeExpense(@RequestBody Integer expenseId) {
+        return balanceService.deleteExpenseById(expenseId);
+    }
+
     @RequestMapping(value = "/computeUserBalance", method = RequestMethod.POST)
     public DebtCredit computeUserBalance(@RequestBody User user) {
         List<Debt> totalDebts = balanceService.computeBalance(user);
@@ -55,7 +61,7 @@ public class BalanceController {
 
     @RequestMapping(value = "/computeSumExpenses", method = RequestMethod.POST)
     public HashMap<User, BigDecimal> computeSumExpensesPerUser(@RequestBody SumExpensesFromDate data) {
-       return balanceService.computeSumExpensesPerUser(data.getUser(), data.getDate());
+        return balanceService.computeSumExpensesPerUser(data.getUser(), data.getDate());
     }
 
     @RequestMapping(value = "/computeSumExpensesPerCat", method = RequestMethod.POST)
@@ -64,8 +70,8 @@ public class BalanceController {
     }
 
     //TODO: only for test
-    @RequestMapping(value = "/getAllAptExpenses/{user}", method = RequestMethod.GET)
-    public List<Expense> aptExpenses(@PathVariable User user) {
+    @RequestMapping(value = "/getAllAptExpenses", method = RequestMethod.GET)
+    public List<Expense> aptExpenses(User user) {
         Integer aptId = userAptDao.aptByUser(user).getId();
         return balanceService.allAptExpenses(aptId);
     }

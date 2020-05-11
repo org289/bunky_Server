@@ -39,4 +39,12 @@ public class BalanceDao {
     public List<ExpenseCategory> getListOfExpenseCategory() {
         return expenseCategoryRepo.findAll();
     }
+
+    public Expense getExpenseById(Integer expenseId) {
+        return expenseRepo.findById(expenseId).orElse(null);
+    }
+
+    public void deleteExpense(Expense expense) {
+        expenseRepo.delete(expense);
+    }
 }

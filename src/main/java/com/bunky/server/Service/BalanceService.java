@@ -181,4 +181,12 @@ public class BalanceService {
         return null;
     }
 
+    public Integer deleteExpenseById(Integer expenseId) {
+        Expense expense = balanceDao.getExpenseById(expenseId);
+        if(expense != null){
+            balanceDao.deleteExpense(expense);
+            return expense.getExpenseId();
+        }
+        return null;
+    }
 }
