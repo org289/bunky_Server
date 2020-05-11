@@ -125,11 +125,20 @@ public class BalanceService {
         BigDecimal aptSum = BigDecimal.ZERO.setScale(2);
         HashMap<User, BigDecimal> sumPerUser = getUsersSumMap(users);
         calcSumUsersExpenses(aptExpenses, sumPerUser);
+        BigDecimal checkSumAfter = BigDecimal.ZERO.setScale(2);
         for (BigDecimal val : sumPerUser.values()) {
             aptSum = aptSum.add(val);
         }
         BigDecimal userShare = aptSum.divide(BigDecimal.valueOf(users.size()), 2, BigDecimal.ROUND_DOWN);
         sumPerUser.replaceAll((k, v) -> v.subtract(userShare));
+        for (BigDecimal value : sumPerUser.values()) {
+            checkSumAfter = checkSumAfter.add(value);
+        }
+        if(checkSumAfter.compareTo(BigDecimal.ZERO.setScale(2)) != 0){
+            // Rounding total sum is incorrect. remove this incorrectness from the biggest credit
+            Map.Entry<User, BigDecimal> maxCredit = sumPerUser.entrySet().stream().max(Map.Entry.comparingByValue()).get();
+            sumPerUser.replace(maxCredit.getKey(), maxCredit.getValue().subtract(checkSumAfter));
+        }
         return sumPerUser;
     }
 
@@ -183,7 +192,7 @@ public class BalanceService {
 
     public Integer deleteExpenseById(Integer expenseId) {
         Expense expense = balanceDao.getExpenseById(expenseId);
-        if(expense != null){
+        if (expense != null) {
             balanceDao.deleteExpense(expense);
             return expense.getExpenseId();
         }
