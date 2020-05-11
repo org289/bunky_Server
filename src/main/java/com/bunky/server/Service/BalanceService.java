@@ -106,7 +106,7 @@ public class BalanceService {
     private List<Debt> getDebts(List<Debt> debts, HashMap<User, BigDecimal> userCreditDebt) {
         Map.Entry<User, BigDecimal> maxCredit = userCreditDebt.entrySet().stream().max(Map.Entry.comparingByValue()).get();
         Map.Entry<User, BigDecimal> maxDebt = userCreditDebt.entrySet().stream().min(Map.Entry.comparingByValue()).get();
-        if (maxCredit.getValue().compareTo(BigDecimal.ZERO) == 0 && maxDebt.getValue().compareTo(BigDecimal.ZERO) == 0) {
+        if (maxCredit.getValue().compareTo(BigDecimal.ZERO.setScale(2)) == 0 && maxDebt.getValue().compareTo(BigDecimal.ZERO.setScale(2)) == 0) {
             // all balanced
             return debts;
         }
@@ -122,7 +122,7 @@ public class BalanceService {
     }
 
     public HashMap<User, BigDecimal> calcCreditDebt(List<Expense> aptExpenses, List<User> users) {
-        BigDecimal aptSum = BigDecimal.ZERO;
+        BigDecimal aptSum = BigDecimal.ZERO.setScale(2);
         HashMap<User, BigDecimal> sumPerUser = getUsersSumMap(users);
         calcSumUsersExpenses(aptExpenses, sumPerUser);
         for (BigDecimal val : sumPerUser.values()) {
@@ -156,7 +156,7 @@ public class BalanceService {
     private HashMap<User, BigDecimal> getUsersSumMap(List<User> users) {
         HashMap<User, BigDecimal> sumPerUser = new HashMap<User, BigDecimal>();
         for (User user : users) {
-            sumPerUser.put(user, BigDecimal.ZERO);
+            sumPerUser.put(user, BigDecimal.ZERO.setScale(2));
         }
         return sumPerUser;
     }
@@ -165,7 +165,7 @@ public class BalanceService {
         HashMap<ExpenseCategory, BigDecimal> sumPerCat = new HashMap<>();
         List<ExpenseCategory> catNames = balanceDao.getListOfExpenseCategory();
         for (ExpenseCategory category : catNames) {
-            sumPerCat.put(category, BigDecimal.ZERO);
+            sumPerCat.put(category, BigDecimal.ZERO.setScale(2));
         }
         return sumPerCat;
     }

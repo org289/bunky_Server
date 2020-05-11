@@ -42,6 +42,6 @@ public class ExpenseCategory {
 
     @Override
     public String toString() {
-        return  name;
+        return name;
     }
 }
