@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.List;
@@ -18,7 +17,6 @@ public class Duty {
 
     private String name;
     @ManyToMany
-    @JoinColumn()
     private List<User> participants;
     private DutyFrequency frequency;
 
@@ -28,7 +26,6 @@ public class Duty {
     public Duty(String name, List<User> participants, DutyFrequency frequency) {
         this.name = name;
         this.participants = participants;
-//        this.frequency = frequency;
     }
 
     public Integer getDutyId() {
@@ -65,6 +62,7 @@ public class Duty {
 
     public enum DutyFrequency {
         DAILY(0), WEEKLY(1), MONTHLY(2);
+
         private int value;
 
         DutyFrequency(int value) {
