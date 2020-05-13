@@ -25,7 +25,7 @@ public class Refund {
     private User giver;
 
     @ManyToOne
-    @JoinColumn(name = "reciever_id")
+    @JoinColumn(name = "receiver_id")
     private User receiver;
 
     private LocalDate date;
@@ -84,7 +84,7 @@ public class Refund {
         this.amount = amount;
     }
 
-    public Boolean getConfirmed() {
+    public Boolean isConfirmed() {
         return confirmed;
     }
 

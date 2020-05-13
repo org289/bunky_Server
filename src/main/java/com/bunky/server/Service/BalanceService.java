@@ -41,6 +41,9 @@ public class BalanceService {
     }
 
     // * createRefund(...)
+    public Refund createRefund(User giver, User receiver, LocalDate date, BigDecimal amount) {
+        return balanceDao.createRefund(new Refund(giver, receiver, date, amount));
+    }
 
     public List<Expense> allAptExpenses(Integer aptId) {
         return balanceDao.getAllAptExpenses(aptId);
@@ -134,7 +137,7 @@ public class BalanceService {
         for (BigDecimal value : sumPerUser.values()) {
             checkSumAfter = checkSumAfter.add(value);
         }
-        if(checkSumAfter.compareTo(BigDecimal.ZERO.setScale(2)) != 0){
+        if (checkSumAfter.compareTo(BigDecimal.ZERO.setScale(2)) != 0) {
             // Rounding total sum is incorrect. remove this incorrectness from the biggest credit
             Map.Entry<User, BigDecimal> maxCredit = sumPerUser.entrySet().stream().max(Map.Entry.comparingByValue()).get();
             sumPerUser.replace(maxCredit.getKey(), maxCredit.getValue().subtract(checkSumAfter));
@@ -182,12 +185,23 @@ public class BalanceService {
     private List<Expense> getOpenExpenses(Integer aptId) {
         List<Expense> allExpenses = allAptExpenses(aptId);
         // for each expense, if not balanced, add.
-        allExpenses.removeIf(Expense::isBalanced);
+        if (allExpenses != null) {
+            allExpenses.removeIf(Expense::isBalanced);
+        }
         return allExpenses;
     }
 
+
     private List<Refund> getConfirmedRefunds(Integer id) {
-        return null;
+        List<Refund> allRefunds = allAptRefunds(id);
+        if (allRefunds != null) {
+            allRefunds.removeIf(refund -> !refund.isConfirmed());
+        }
+        return allRefunds;
+    }
+
+    private List<Refund> allAptRefunds(Integer id) {
+        return balanceDao.getAllAptRefunds(id);
     }
 
     public Integer deleteExpenseById(Integer expenseId) {

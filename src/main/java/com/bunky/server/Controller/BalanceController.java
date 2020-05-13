@@ -7,6 +7,7 @@ import com.bunky.server.DTO.SumExpensesFromDate;
 import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.ExpenseCategory;
+import com.bunky.server.Entity.Refund;
 import com.bunky.server.Entity.User;
 import com.bunky.server.Service.BalanceService;
 import com.bunky.server.repository.ExpenseCategoryRepo;
@@ -46,8 +47,11 @@ public class BalanceController {
         return balanceService.createExpense(newExpense.getUser(), category, newExpense.getTitle(), newExpense.getDate(), newExpense.getAmount());
     }
 
-    // TODO: gets expense ID only?
-    // TODO: type returned?
+    @RequestMapping(value = "/addRefund", method = RequestMethod.POST)
+    public Refund addRefund(@RequestBody Refund refund) {
+        return balanceService.createRefund(refund.getGiver(), refund.getReceiver(), refund.getDate(), refund.getAmount());
+    }
+
     @RequestMapping(value = "/removeExpense", method = RequestMethod.PUT)
     public Integer removeExpense(@RequestBody Integer expenseId) {
         return balanceService.deleteExpenseById(expenseId);
