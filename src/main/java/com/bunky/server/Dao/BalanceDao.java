@@ -60,7 +60,7 @@ public class BalanceDao {
     }
 
     public List<Expense> getExpensesWithLimit(Integer aptID, int limit) {
-        return expenseRepo.getAllByApartmentByLimit(aptID, PageRequest.of(0, limit, Sort.by("date").descending()));
+        return expenseRepo.getAllByApartmentByLimit(aptID, PageRequest.of(0, limit, Sort.by("date").descending().and(Sort.by("expenseId").descending())));
     }
 
     public List<Refund> getAllAptRefunds(Integer id) {
