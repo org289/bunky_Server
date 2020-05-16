@@ -1,6 +1,7 @@
 package com.bunky.server.Dao;
 
 import com.bunky.server.Entity.Duty;
+import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.User;
 import com.bunky.server.repository.DutyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,9 @@ public class DutyDao {
 
     public Duty addDuty(Duty duty) {
         return dutyRepo.save(duty);
+    }
+
+    public List<Duty> getAllAptDuties(Integer aptId) {
+        return dutyRepo.getAllByApartment(aptId);
     }
 }

@@ -2,6 +2,7 @@ package com.bunky.server.Service;
 
 import com.bunky.server.Dao.DutyDao;
 import com.bunky.server.Entity.Duty;
+import com.bunky.server.Entity.Expense;
 import com.bunky.server.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class DutyService {
 
     public Duty addDuty(User user, Duty.DutyFrequency frequency, String title, List<User> participants) {
         return dutyDao.addDuty(new Duty(title, participants, frequency));
+    }
+
+    public List<Duty> getAllAptDuties(Integer aptId) {
+        return dutyDao.getAllAptDuties(aptId);
     }
 
     // List<Shift> getShiftsByDate(User user, LocalDate untilDate)
