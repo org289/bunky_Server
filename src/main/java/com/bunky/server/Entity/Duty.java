@@ -6,9 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
+@Table(name = "duties")
 public class Duty {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "duty_generator")
@@ -26,6 +28,10 @@ public class Duty {
     public Duty(String name, List<User> participants, DutyFrequency frequency) {
         this.name = name;
         this.participants = participants;
+        this.frequency = frequency;
+    }
+
+    public Duty() {
     }
 
     public Integer getDutyId() {
