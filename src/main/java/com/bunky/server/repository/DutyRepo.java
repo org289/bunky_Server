@@ -14,4 +14,8 @@ public interface DutyRepo extends JpaRepository<Duty, Integer> {
 //    @Query(value = "From Duty d join d.participants u, Apartment a where u Member of a.users and a.aptId=:aptId")
 //    List<Duty> getAllByApartment(@Param("aptId") final Integer aptId);
 
+    // TODO:delete after writing the above query
+    @Query(value = "From Duty d")
+    List<Duty> getAllByApartment(@Param("aptId") final Integer aptId);
+
 }
