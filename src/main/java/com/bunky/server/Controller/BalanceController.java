@@ -89,6 +89,14 @@ public class BalanceController {
         return expenseRepo.getAllByApartmentFromDate(aptId, date);
     }
 
+    @RequestMapping(value = "/getAptExpensesBetweenDates", method = RequestMethod.GET)
+    public List<Expense> aptExpensesBetweenDates(User user, String fromDate, String toDate) {
+        LocalDate from = LocalDate.parse(fromDate);
+        LocalDate to = LocalDate.parse(toDate);
+        Integer aptId = userAptDao.aptByUser(user).getId();
+        return balanceService.getAllByApartmentBetweenDates(aptId, from, to);
+    }
+
     @RequestMapping(value = "/getAptExpensesWithLimit", method = RequestMethod.GET)
     public List<Expense> aptExpensesLimitParam(User user, int limit) {
         Integer aptId = userAptDao.aptByUser(user).getId();

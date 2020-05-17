@@ -19,8 +19,9 @@ public interface ExpenseRepo extends JpaRepository<Expense, Integer> {
     @Query(value = "From Expense ex join ex.user u, Apartment a where u Member of a.users and a.aptId= :aptId and ex.date >= :fromDate")
     List<Expense> getAllByApartmentFromDate(@Param("aptId") final Integer aptId, @Param("fromDate") final LocalDate fromDate);
 
+    @Query(value = "From Expense ex join ex.user u, Apartment a where u Member of a.users and a.aptId= :aptId and ex.date >= :fromDate and ex.date <= :toDate")
+    List<Expense> getAllByApartmentBetweenDates(@Param("aptId") final Integer aptId, @Param("fromDate") final LocalDate fromDate, @Param("toDate") final LocalDate toDate);
+
     @Query(value = "From Expense ex join ex.user u, Apartment a where u Member of a.users and a.aptId=:aptId")
     List<Expense> getAllByApartmentByLimit(@Param("aptId") final Integer aptId, @Param("limit") Pageable pageable);
-
-
 }

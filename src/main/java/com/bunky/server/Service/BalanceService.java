@@ -216,4 +216,8 @@ public class BalanceService {
     public List<Expense> getExpensesWithLimit(Integer aptID, int limit) {
         return balanceDao.getExpensesWithLimit(aptID, limit);
     }
+
+    public List<Expense> getAllByApartmentBetweenDates(Integer aptId, LocalDate from, LocalDate to) {
+        return balanceDao.getAllByApartmentBetweenDates(aptId, from, to);
+    }
 }

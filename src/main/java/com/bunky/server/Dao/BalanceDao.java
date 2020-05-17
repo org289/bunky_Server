@@ -66,4 +66,8 @@ public class BalanceDao {
     public List<Refund> getAllAptRefunds(Integer id) {
         return refundRepo.getAllByApartment(id);
     }
+
+    public List<Expense> getAllByApartmentBetweenDates(Integer aptId, LocalDate from, LocalDate to) {
+        return expenseRepo.getAllByApartmentBetweenDates(aptId, from, to);
+    }
 }
