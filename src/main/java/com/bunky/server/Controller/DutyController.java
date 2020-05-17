@@ -36,7 +36,7 @@ public class DutyController {
 
     @RequestMapping(value = "/addDuty", method = RequestMethod.POST)
     public Duty addDuty(@RequestBody NewDuty newDuty) {
-        return dutyService.addDuty(newDuty.getUser(), newDuty.getFrequency(), newDuty.getTitle(), newDuty.getParticipants());
+        return dutyService.addDuty(newDuty.getFrequency(), newDuty.getTitle(), newDuty.getParticipants());
     }
 
     @RequestMapping(value = "/getAllAptDuties", method = RequestMethod.GET)

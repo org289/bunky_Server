@@ -10,12 +10,6 @@ import java.util.List;
 
 public interface DutyRepo extends JpaRepository<Duty, Integer> {
 
-    // TODO: figure out how to compare one user from d.participants
-//    @Query(value = "From Duty d join d.participants u, Apartment a where u Member of a.users and a.aptId=:aptId")
-//    List<Duty> getAllByApartment(@Param("aptId") final Integer aptId);
-
-    // TODO:delete after writing the above query
-    @Query(value = "From Duty d")
+    @Query(value = "From Duty d where exists (select a from Apartment a where a.aptId=:aptId)")
     List<Duty> getAllByApartment(@Param("aptId") final Integer aptId);
-
 }

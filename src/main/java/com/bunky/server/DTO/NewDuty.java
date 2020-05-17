@@ -6,18 +6,9 @@ import com.bunky.server.Entity.User;
 import java.util.List;
 
 public class NewDuty {
-    private User user;
     private String title;
     private List<User> participants;
     private Duty.DutyFrequency frequency;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public String getTitle() {
         return title;

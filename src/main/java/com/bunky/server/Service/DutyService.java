@@ -19,7 +19,7 @@ public class DutyService {
         this.dutyDao = dutyDao;
     }
 
-    public Duty addDuty(User user, Duty.DutyFrequency frequency, String title, List<User> participants) {
+    public Duty addDuty(Duty.DutyFrequency frequency, String title, List<User> participants) {
         return dutyDao.addDuty(new Duty(title, participants, frequency));
     }
 
