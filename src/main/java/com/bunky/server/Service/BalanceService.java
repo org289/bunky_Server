@@ -82,11 +82,30 @@ public class BalanceService {
         return sumExpenses;
     }
 
+    // between dates
+    public HashMap<User, BigDecimal> computeSumExpensesPerUser(User user, LocalDate fromDate, LocalDate toDate) {
+        Apartment apt = userAptDao.aptByUser(user);
+        HashMap<User, BigDecimal> sumExpenses = getUsersSumMap(apt.getUsers());
+        List<Expense> expensesBetweenDates = balanceDao.getAllByApartmentBetweenDates(apt.getId(), fromDate, toDate);
+        calcSumUsersExpenses(expensesBetweenDates, sumExpenses);
+        return sumExpenses;
+    }
+
     public HashMap<ExpenseCategory, BigDecimal> computeSumExpensesPerCategory(User user, LocalDate fromDate) {
         //--- return sum of expenses by category
         Apartment apt = userAptDao.aptByUser(user);
         HashMap<ExpenseCategory, BigDecimal> sumExpenses = getCategorySumMap();
         List<Expense> expensesFromDate = balanceDao.getAllAptExpensesFromDate(apt.getId(), fromDate);
+        calcSumCatExpenses(expensesFromDate, sumExpenses);
+        return sumExpenses;
+    }
+
+    // between dates
+    public HashMap<ExpenseCategory, BigDecimal> computeSumExpensesPerCategory(User user, LocalDate fromDate, LocalDate toDate) {
+        //--- return sum of expenses by category
+        Apartment apt = userAptDao.aptByUser(user);
+        HashMap<ExpenseCategory, BigDecimal> sumExpenses = getCategorySumMap();
+        List<Expense> expensesFromDate = balanceDao.getAllByApartmentBetweenDates(apt.getId(), fromDate, toDate);
         calcSumCatExpenses(expensesFromDate, sumExpenses);
         return sumExpenses;
     }

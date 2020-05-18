@@ -65,12 +65,24 @@ public class BalanceController {
 
     @RequestMapping(value = "/computeSumExpenses", method = RequestMethod.POST)
     public HashMap<User, BigDecimal> computeSumExpensesPerUser(@RequestBody SumExpensesFromDate data) {
-        return balanceService.computeSumExpensesPerUser(data.getUser(), data.getDate());
+        return balanceService.computeSumExpensesPerUser(data.getUser(), data.getToDate());
+    }
+
+    // new - between dates
+    @RequestMapping(value = "/computeSumExpensesPerUserDates", method = RequestMethod.POST)
+    public HashMap<User, BigDecimal> computeSumExpensesPerUserDates(@RequestBody SumExpensesFromDate data) {
+        return balanceService.computeSumExpensesPerUser(data.getUser(), data.getFromDate(), data.getToDate());
     }
 
     @RequestMapping(value = "/computeSumExpensesPerCat", method = RequestMethod.POST)
     public HashMap<ExpenseCategory, BigDecimal> computeSumExpensesPerCategory(@RequestBody SumExpensesFromDate data) {
-        return balanceService.computeSumExpensesPerCategory(data.getUser(), data.getDate());
+        return balanceService.computeSumExpensesPerCategory(data.getUser(), data.getToDate());
+    }
+
+    // new - between dates
+    @RequestMapping(value = "/computeSumExpensesPerCatDates", method = RequestMethod.POST)
+    public HashMap<ExpenseCategory, BigDecimal> computeSumExpensesPerCategoryDates(@RequestBody SumExpensesFromDate data) {
+        return balanceService.computeSumExpensesPerCategory(data.getUser(), data.getFromDate(), data.getToDate());
     }
 
     //TODO: only for test

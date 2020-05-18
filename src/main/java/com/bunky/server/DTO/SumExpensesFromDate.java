@@ -6,7 +6,8 @@ import java.time.LocalDate;
 
 public class SumExpensesFromDate {
     User user;
-    LocalDate date;
+    LocalDate fromDate;
+    LocalDate toDate;
 
     public User getUser() {
         return user;
@@ -16,11 +17,19 @@ public class SumExpensesFromDate {
         this.user = user;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getToDate() {
+        return toDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setToDate(LocalDate toDate) {
+        this.toDate = toDate;
+    }
+
+    public LocalDate getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
     }
 }
