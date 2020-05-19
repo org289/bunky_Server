@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -77,6 +78,17 @@ public class Duty {
 
         public int getValue() {
             return value;
+        }
+    }
+    public class NextShift{
+        private User executor;
+        private LocalDate startDate;
+        private LocalDate endDate;
+
+        public NextShift(User executor, LocalDate startDate, LocalDate endDate) {
+            this.executor = executor;
+            this.startDate = startDate;
+            this.endDate = endDate;
         }
     }
 }
