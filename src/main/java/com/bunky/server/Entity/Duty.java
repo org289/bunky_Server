@@ -32,17 +32,7 @@ public class Duty {
         this.name = name;
         this.participants = participants;
         this.frequency = frequency;
-        LocalDate shiftStartDate = LocalDate.now();
-        LocalDate shiftEndDate = LocalDate.now();
-        if (this.frequency == DutyFrequency.DAILY) {
-            shiftEndDate = shiftStartDate.plusDays(1);
-        } else if (this.frequency == DutyFrequency.WEEKLY) {
-            shiftEndDate = shiftStartDate.plusWeeks(1);
-        } else {
-            // MONTHLY
-            shiftEndDate = shiftStartDate.plusMonths(1);
-        }
-        this.nextShift = new NextShift(participants.get(0), shiftStartDate, shiftEndDate);
+        this.nextShift = setShiftDatesByFrequency(frequency, participants.get(0));
     }
 
     public Duty() {
@@ -86,6 +76,17 @@ public class Duty {
 
     public void setNextShift(NextShift nextShift) {
         this.nextShift = nextShift;
+    }
+
+    public NextShift setShiftDatesByFrequency(DutyFrequency frequency, User nextParticipant){
+        LocalDate shiftStartDate = LocalDate.now();
+        LocalDate shiftEndDate = LocalDate.now();
+        if (frequency == DutyFrequency.WEEKLY) {
+            shiftEndDate = shiftStartDate.plusWeeks(1);
+        } else if (frequency == DutyFrequency.MONTHLY){
+            shiftEndDate = shiftStartDate.plusMonths(1);
+        } // else, its a daily shift so from today till today
+        return new NextShift(nextParticipant, shiftStartDate, shiftEndDate);
     }
 
     public enum DutyFrequency {
@@ -141,5 +142,6 @@ public class Duty {
         public void setEndDate(LocalDate endDate) {
             this.endDate = endDate;
         }
+
     }
 }

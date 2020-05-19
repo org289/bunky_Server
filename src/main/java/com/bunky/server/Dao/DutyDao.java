@@ -1,8 +1,6 @@
 package com.bunky.server.Dao;
 
 import com.bunky.server.Entity.Duty;
-import com.bunky.server.Entity.Expense;
-import com.bunky.server.Entity.User;
 import com.bunky.server.repository.DutyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,5 +22,13 @@ public class DutyDao {
 
     public List<Duty> getAllAptDuties(Integer aptId) {
         return dutyRepo.getAllByApartment(aptId);
+    }
+
+    public Duty updateNextShift(Duty duty) {
+        return dutyRepo.save(duty);
+    }
+
+    public Duty getDutyById(Integer dutyId) {
+        return dutyRepo.findById(dutyId).orElse(null);
     }
 }

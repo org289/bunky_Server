@@ -37,4 +37,11 @@ public class DutyController {
         List<Duty> allAptDuties = dutyService.getAllAptDuties(aptId);
         return allAptDuties;
     }
+
+    // TODO: only for tests. delete
+    @RequestMapping(value = "/changeNextExecutor", method = RequestMethod.PUT)
+    public Duty aptDuties(@RequestBody Duty duty) {
+        Duty updatedDuty = dutyService.updateNextShift(duty);
+        return updatedDuty;
+    }
 }
