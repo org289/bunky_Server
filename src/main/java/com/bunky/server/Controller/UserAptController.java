@@ -4,12 +4,10 @@ import com.bunky.server.DTO.LoginUser;
 import com.bunky.server.DTO.NewApartment;
 import com.bunky.server.DTO.NewUser;
 import com.bunky.server.DTO.RegisterToApt;
-import com.bunky.server.DTO.twoUsers;
 import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,17 +72,8 @@ public class UserAptController {
         return userAptDao.getAllUsers();
     }
 
-    // TODO: only for tests (delete)
-    @RequestMapping(value = "/testSendingUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createUser(@RequestBody twoUsers newUser) {
-        System.out.println("success!");
-        System.out.println("user1: " + newUser.getUser1());
-        System.out.println("user2: " + newUser.getUser2());
-    }
-
 
     // APARTMENT
-
     @RequestMapping(value = "/newApt", method = RequestMethod.POST)
     public Integer createApartment(@RequestBody NewApartment newApartment) {
         return userAptDao.createApt(newApartment.getUser(), newApartment.getAptName());

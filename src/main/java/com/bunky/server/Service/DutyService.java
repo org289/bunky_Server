@@ -34,21 +34,21 @@ public class DutyService {
     // check if the next shift in given duty needs to be updated and update
     public Duty updateNextShift(Duty duty) { //TODO: can get only dutyId
         Duty dutyFromDb = dutyDao.getDutyById(duty.getDutyId());
-        if (dutyFromDb == null || dutyFromDb.getNextShift() == null) {
+        if (dutyFromDb == null || dutyFromDb.getShift() == null) {
             return null;
         }
 
-        Duty.NextShift newNextShift = dutyFromDb.getNextShift();
+        Duty.Shift newNextShift = dutyFromDb.getShift();
         // advance next shift by one until the ending date is bigger from today (or equal).
         while (newNextShift.getEndDate().compareTo(LocalDate.now()) < 0) {
             newNextShift = calcNextShift(dutyFromDb);
         }
-        dutyFromDb.setNextShift(newNextShift);
+        dutyFromDb.setShift(newNextShift);
         return dutyDao.updateNextShift(dutyFromDb);
     }
 
-    private Duty.NextShift calcNextShift(Duty duty) {
-        Duty.NextShift next = duty.getNextShift();
+    private Duty.Shift calcNextShift(Duty duty) {
+        Duty.Shift next = duty.getShift();
         LocalDate currentStartDate = next.getStartDate();
         LocalDate currentEndDate = next.getEndDate();
         switch (duty.getFrequency()) {

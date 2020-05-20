@@ -20,19 +20,18 @@ public class Duty {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "duty_generator")
     @SequenceGenerator(name = "duty_generator", sequenceName = "duty_seq")
     private Integer dutyId;
-
     private String name;
     @ManyToMany
     private List<User> participants;
     private DutyFrequency frequency;
     @Embedded
-    private NextShift nextShift;
+    private Shift shift;
 
     public Duty(String name, List<User> participants, DutyFrequency frequency) {
         this.name = name;
         this.participants = participants;
         this.frequency = frequency;
-        this.nextShift = setShiftDatesByFrequency(frequency, participants.get(0));
+        this.shift = setShiftDatesByFrequency(frequency, participants.get(0));
     }
 
     public Duty() {
@@ -70,15 +69,15 @@ public class Duty {
         this.frequency = frequency;
     }
 
-    public NextShift getNextShift() {
-        return nextShift;
+    public Shift getShift() {
+        return shift;
     }
 
-    public void setNextShift(NextShift nextShift) {
-        this.nextShift = nextShift;
+    public void setShift(Shift shift) {
+        this.shift = shift;
     }
 
-    public NextShift setShiftDatesByFrequency(DutyFrequency frequency, User nextParticipant){
+    public Shift setShiftDatesByFrequency(DutyFrequency frequency, User nextParticipant){
         LocalDate shiftStartDate = LocalDate.now();
         LocalDate shiftEndDate = LocalDate.now();
         if (frequency == DutyFrequency.WEEKLY) {
@@ -86,7 +85,7 @@ public class Duty {
         } else if (frequency == DutyFrequency.MONTHLY){
             shiftEndDate = shiftStartDate.plusMonths(1);
         } // else, its a daily shift so from today till today
-        return new NextShift(nextParticipant, shiftStartDate, shiftEndDate);
+        return new Shift(nextParticipant, shiftStartDate, shiftEndDate);
     }
 
     public enum DutyFrequency {
@@ -104,19 +103,19 @@ public class Duty {
     }
 
     @Embeddable
-    public static class NextShift {
+    public static class Shift {
         @OneToOne
         private User executor;
         private LocalDate startDate;
         private LocalDate endDate;
 
-        public NextShift(User executor, LocalDate startDate, LocalDate endDate) {
+        public Shift(User executor, LocalDate startDate, LocalDate endDate) {
             this.executor = executor;
             this.startDate = startDate;
             this.endDate = endDate;
         }
 
-        public NextShift() {
+        public Shift() {
         }
 
         public User getExecutor() {
