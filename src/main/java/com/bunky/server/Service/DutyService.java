@@ -71,6 +71,14 @@ public class DutyService {
         return next;
     }
 
+    public Duty setDutyAsExecuted(Integer dutyId) {
+        Duty dutyFromDb = dutyDao.getDutyById(dutyId);
+        if (dutyFromDb != null) {
+            dutyFromDb.getShift().setExecuted(true);
+        }
+        return dutyFromDb;
+    }
+
 
     // List<Shift> getShiftsByDate(User user, LocalDate untilDate)
     // get User's duties by parameter. needs "shift" entity contains the next shift for every task

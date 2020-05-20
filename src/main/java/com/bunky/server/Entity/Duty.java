@@ -108,11 +108,13 @@ public class Duty {
         private User executor;
         private LocalDate startDate;
         private LocalDate endDate;
+        private boolean isExecuted;
 
         public Shift(User executor, LocalDate startDate, LocalDate endDate) {
             this.executor = executor;
             this.startDate = startDate;
             this.endDate = endDate;
+            this.isExecuted = false;
         }
 
         public Shift() {
@@ -142,5 +144,12 @@ public class Duty {
             this.endDate = endDate;
         }
 
+        public boolean isExecuted() {
+            return isExecuted;
+        }
+
+        public void setExecuted(boolean executed) {
+            isExecuted = executed;
+        }
     }
 }

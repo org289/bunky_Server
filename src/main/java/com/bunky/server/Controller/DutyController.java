@@ -43,4 +43,12 @@ public class DutyController {
         Duty updatedDuty = dutyService.updateNextShift(duty);
         return updatedDuty;
     }
+
+    // TODO: which HTTP Request type is best here?
+    @RequestMapping(value = "/setDutyAsExecuted", method = RequestMethod.PUT)
+    public Duty setDutyAsExecuted(@RequestBody Duty duty) {
+        Duty updatedDuty = dutyService.setDutyAsExecuted(duty.getDutyId());
+        return updatedDuty;
+    }
+
 }
