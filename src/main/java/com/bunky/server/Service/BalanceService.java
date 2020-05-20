@@ -237,6 +237,8 @@ public class BalanceService {
     }
 
     public List<Expense> getAllByApartmentBetweenDates(Integer aptId, LocalDate from, LocalDate to) {
-        return balanceDao.getAllByApartmentBetweenDates(aptId, from, to);
+        List<Expense> expenses =  balanceDao.getAllByApartmentBetweenDates(aptId, from, to);
+        expenses.sort((e1, e2) -> e2.getExpenseId().compareTo(e1.getExpenseId()));
+        return expenses;
     }
 }
