@@ -1,6 +1,5 @@
 package com.bunky.server.Controller;
 
-import com.bunky.server.DTO.NewDuty;
 import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.Entity.Duty;
 import com.bunky.server.Entity.User;
@@ -26,8 +25,8 @@ public class DutyController {
     }
 
     @RequestMapping(value = "/addDuty", method = RequestMethod.POST)
-    public Duty addDuty(@RequestBody NewDuty newDuty) {
-        Duty duty = dutyService.addDuty(newDuty.getFrequency(), newDuty.getTitle(), newDuty.getParticipants());
+    public Duty addDuty(@RequestBody Duty newDuty) {
+        Duty duty = dutyService.addDuty(newDuty.getFrequency(), newDuty.getName(), newDuty.getParticipants());
         return duty;
     }
 

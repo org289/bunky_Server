@@ -19,8 +19,12 @@ public class DutyService {
         this.dutyDao = dutyDao;
     }
 
-    public Duty addDuty(Duty.DutyFrequency frequency, String title, List<User> participants) {
-        return dutyDao.addDuty(new Duty(title, participants, frequency));
+    public Duty addDuty(Duty.DutyFrequency frequency, String name, List<User> participants) {
+        if (name == null || name.isEmpty() || participants == null || participants.size() == 0 || frequency == null){
+            // the duty requested is not valid
+            return null;
+        } // else, insert new duty to DB
+        return dutyDao.addDuty(new Duty(name, participants, frequency));
     }
 
     public List<Duty> getAllAptDuties(Integer aptId) {
