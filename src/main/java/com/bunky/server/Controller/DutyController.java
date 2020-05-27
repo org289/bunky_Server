@@ -39,16 +39,19 @@ public class DutyController {
 
     // TODO: only for tests. delete
     @RequestMapping(value = "/changeNextExecutor", method = RequestMethod.PUT)
-    public Duty aptDuties(@RequestBody Duty duty) {
+    public Duty changeNextExecutor(@RequestBody Duty duty) {
         Duty updatedDuty = dutyService.updateNextShift(duty);
         return updatedDuty;
     }
 
-    // TODO: which HTTP Request type is best here?
-    @RequestMapping(value = "/setDutyAsExecuted", method = RequestMethod.PUT)
-    public Duty setDutyAsExecuted(@RequestBody Duty duty) {
-        Duty updatedDuty = dutyService.setDutyAsExecuted(duty.getDutyId());
+    @RequestMapping(value = "/flipIsExecuted", method = RequestMethod.PUT)
+    public Duty flipIsExecuted(@RequestBody Duty duty) {
+        Duty updatedDuty = dutyService.flipIsExecuted(duty.getDutyId());
         return updatedDuty;
     }
 
+    @RequestMapping(value = "/getMyDuties", method = RequestMethod.GET)
+    public List<Duty> getAllByUser(User user){
+        return dutyService.getAllByUser(user);
+    }
 }

@@ -1,6 +1,7 @@
 package com.bunky.server.Dao;
 
 import com.bunky.server.Entity.Duty;
+import com.bunky.server.Entity.User;
 import com.bunky.server.repository.DutyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,13 @@ public class DutyDao {
 
     public Duty getDutyById(Integer dutyId) {
         return dutyRepo.findById(dutyId).orElse(null);
+    }
+
+    public Duty updateDuty(Duty dutyFromDb) {
+        return dutyRepo.save(dutyFromDb);
+    }
+
+    public List<Duty> getAllByUser(User user) {
+        return dutyRepo.getAllByUser(user);
     }
 }

@@ -81,9 +81,9 @@ public class Duty {
         LocalDate shiftStartDate = LocalDate.now();
         LocalDate shiftEndDate = LocalDate.now();
         if (frequency == DutyFrequency.WEEKLY) {
-            shiftEndDate = shiftStartDate.plusWeeks(1);
+            shiftEndDate = shiftStartDate.plusWeeks(1).minusDays(1);
         } else if (frequency == DutyFrequency.MONTHLY){
-            shiftEndDate = shiftStartDate.plusMonths(1);
+            shiftEndDate = shiftStartDate.plusMonths(1).minusDays(1);
         } // else, its a daily shift so from today till today
         return new Shift(nextParticipant, shiftStartDate, shiftEndDate);
     }
@@ -150,6 +150,10 @@ public class Duty {
 
         public void setExecuted(boolean executed) {
             isExecuted = executed;
+        }
+
+        public void flipExecuted(){
+            isExecuted = !isExecuted;
         }
     }
 }

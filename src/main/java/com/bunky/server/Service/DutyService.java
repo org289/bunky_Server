@@ -71,12 +71,17 @@ public class DutyService {
         return next;
     }
 
-    public Duty setDutyAsExecuted(Integer dutyId) {
+    public Duty flipIsExecuted(Integer dutyId) {
         Duty dutyFromDb = dutyDao.getDutyById(dutyId);
         if (dutyFromDb != null) {
-            dutyFromDb.getShift().setExecuted(true);
+            dutyFromDb.getShift().flipExecuted();
+            dutyFromDb = dutyDao.updateDuty(dutyFromDb);
         }
         return dutyFromDb;
+    }
+
+    public List<Duty> getAllByUser(User user) {
+        return dutyDao.getAllByUser(user);
     }
 
 
