@@ -4,6 +4,7 @@ import com.bunky.server.Dao.DutyDao;
 import com.bunky.server.Entity.Duty;
 import com.bunky.server.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class DutyService {
     }
 
     public Duty addDuty(Duty.DutyFrequency frequency, String name, List<User> participants) {
-        if (name == null || name.isEmpty() || participants == null || participants.size() == 0 || frequency == null){
+        if (name == null || name.isEmpty() || participants == null || participants.size() == 0 || frequency == null) {
             // the duty requested is not valid
             return null;
         } // else, insert new duty to DB
@@ -31,9 +32,20 @@ public class DutyService {
         return dutyDao.getAllAptDuties(aptId);
     }
 
-    // check if the next shift in given duty needs to be updated and update
-    public Duty updateNextShift(Duty duty) { //TODO: can get only dutyId
-        Duty dutyFromDb = dutyDao.getDutyById(duty.getDutyId());
+    @Scheduled(cron = "0 0 0 * * *")
+    // this function will update duties' shifts every day at 00:00.
+    public void updateShifts() {
+        System.out.println("inside scheduled task");
+        List<Duty> allDuties = dutyDao.getAll();
+        for (Duty duty : allDuties) {
+            System.out.println(duty.getName());
+            updateNextShift(duty);
+        }
+    }
+
+    public Duty updateNextShift(Duty dutyFromDb) {
+        // check if the next shift in given duty needs to be updated and update
+        // first, if NULL, something is not right - return
         if (dutyFromDb == null || dutyFromDb.getShift() == null) {
             return null;
         }
@@ -41,6 +53,7 @@ public class DutyService {
         Duty.Shift newNextShift = dutyFromDb.getShift();
         // advance next shift by one until the ending date is bigger from today (or equal).
         while (newNextShift.getEndDate().compareTo(LocalDate.now()) < 0) {
+            System.out.println("updating shift"); // TODO: delete comment
             newNextShift = calcNextShift(dutyFromDb);
         }
         dutyFromDb.setShift(newNextShift);

@@ -2,9 +2,11 @@ package com.bunky.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
+@EnableScheduling
 public class BunkyServerApplication {
 
     public static void main(String[] args)
@@ -12,5 +14,4 @@ public class BunkyServerApplication {
         SpringApplication.run(BunkyServerApplication.class, args);
     }
 
-    // TODO: Class - feedback--> feedback(0 if valid 1 if there's err),error(string)
 }

@@ -44,6 +44,12 @@ public class DutyController {
         return updatedDuty;
     }
 
+    // TODO: only for tests. delete
+    @RequestMapping(value = "/updateDuties", method = RequestMethod.PUT)
+    public void update() {
+        dutyService.updateShifts();
+    }
+
     @RequestMapping(value = "/flipIsExecuted", method = RequestMethod.PUT)
     public Duty flipIsExecuted(@RequestBody Duty duty) {
         Duty updatedDuty = dutyService.flipIsExecuted(duty.getDutyId());

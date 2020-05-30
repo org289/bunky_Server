@@ -40,4 +40,8 @@ public class DutyDao {
     public List<Duty> getAllByUser(User user) {
         return dutyRepo.getAllByUser(user);
     }
+
+    public List<Duty> getAll(){
+        return dutyRepo.findAll();
+    }
 }
