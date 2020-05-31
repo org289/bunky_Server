@@ -60,4 +60,10 @@ public class DutyController {
     public List<Duty> getAllByUser(User user){
         return dutyService.getAllByUser(user);
     }
+
+    @RequestMapping(value = "/removeDuty", method = RequestMethod.PUT)
+    public Integer removeDuty(@RequestBody Integer dutyId) {
+        return dutyService.deleteDutyById(dutyId);
+    }
+
 }

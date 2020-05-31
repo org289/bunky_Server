@@ -44,4 +44,8 @@ public class DutyDao {
     public List<Duty> getAll(){
         return dutyRepo.findAll();
     }
+
+    public void deleteDuty(Duty duty) {
+        dutyRepo.delete(duty);
+    }
 }

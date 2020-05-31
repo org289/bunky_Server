@@ -35,10 +35,10 @@ public class DutyService {
     @Scheduled(cron = "0 0 0 * * *")
     // this function will update duties' shifts every day at 00:00.
     public void updateShifts() {
-        System.out.println("inside scheduled task");
+        System.out.println("inside scheduled task"); // TODO: delete comment
         List<Duty> allDuties = dutyDao.getAll();
         for (Duty duty : allDuties) {
-            System.out.println(duty.getName());
+            System.out.println(duty.getName()); // TODO: delete comment
             updateNextShift(duty);
         }
     }
@@ -97,10 +97,19 @@ public class DutyService {
         return dutyDao.getAllByUser(user);
     }
 
+    public Integer deleteDutyById(Integer dutyId) {
+        Duty duty = dutyDao.getDutyById(dutyId);
+        if (duty != null) {
+            dutyDao.deleteDuty(duty);
+            return duty.getDutyId();
+        }
+        return null;
+    }
 
-    // List<Shift> getShiftsByDate(User user, LocalDate untilDate)
-    // get User's duties by parameter. needs "shift" entity contains the next shift for every task
-    // this function will computes all next shifts for the requester(user) using the current shift
 
-    // TODO: create entity "shiftReplacement" - needs to take into consideration when calculating next shifts
+// List<Shift> getShiftsByDate(User user, LocalDate untilDate)
+// get User's duties by parameter. needs "shift" entity contains the next shift for every task
+// this function will computes all next shifts for the requester(user) using the current shift
+
+// TODO: create entity "shiftReplacement" - needs to take into consideration when calculating next shifts
 }
