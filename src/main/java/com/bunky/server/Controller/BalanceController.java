@@ -114,4 +114,10 @@ public class BalanceController {
         Integer aptId = userAptDao.aptByUser(user).getId();
         return balanceService.getExpensesWithLimit(aptId, limit);
     }
+
+
+    @RequestMapping(value = "/getMyPersonalTotalBalance", method = RequestMethod.GET)
+    public BigDecimal personalTotalBalance(User user) {
+        return balanceService.myPersonalTotalBalance(user);
+    }
 }

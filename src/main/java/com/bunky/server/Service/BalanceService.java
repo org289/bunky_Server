@@ -49,8 +49,17 @@ public class BalanceService {
         return balanceDao.getAllAptExpenses(aptId);
     }
 
+    public BigDecimal myPersonalTotalBalance(User user){
+        // needs to get this user apt
+        Apartment userApt = userAptDao.aptByUser(user);
+        // get from the apt the expenses not balanced, the refunds confirmed
+        List<Expense> aptExpenses = getOpenExpenses(userApt.getId());
+        List<Refund> aptRefunds = getConfirmedRefunds(userApt.getId());
+        HashMap<User, BigDecimal> userCreditDebt = getUsersPersonalBalances(aptExpenses, aptRefunds, userApt.getUsers());
+        return userCreditDebt.get(user);
+    }
 
-    //    computes balance for this user
+    //  computes balance for this user
     public List<Debt> computeBalance(User user) {
         // needs to get this user apt
         Apartment userApt = userAptDao.aptByUser(user);
@@ -66,12 +75,23 @@ public class BalanceService {
 
     public List<Debt> splitEqually(List<Expense> aptExpenses, List<Refund> aptRefunds, List<User> users) {
         List<Debt> debts = new ArrayList<>();
-        // first, we calculate for each user it's credit / debt
-        HashMap<User, BigDecimal> userCreditDebt = calcCreditDebt(aptExpenses, users);
-        subtractRefunds(userCreditDebt, aptRefunds);
+        // first, get hash map of amount and user. the amount represents the user's personal balance
+        HashMap<User, BigDecimal> userCreditDebt = getUsersPersonalBalances(aptExpenses, aptRefunds, users);
+        // then, make a list of debts according to this balances
         debts = getDebts(debts, userCreditDebt);
         return debts;
     }
+
+    /**
+     * create hash map of amount and user. the amount represents the user's personal balance
+     */
+    private HashMap<User, BigDecimal> getUsersPersonalBalances(List<Expense> aptExpenses, List<Refund> aptRefunds, List<User> users) {
+        HashMap<User, BigDecimal> userCreditDebt = calcCreditDebt(aptExpenses, users);
+        subtractRefunds(userCreditDebt, aptRefunds);
+        return userCreditDebt;
+    }
+
+
 
     public HashMap<User, BigDecimal> computeSumExpensesPerUser(User user, LocalDate fromDate) {
         //--- return all users debit/credit (sum)
