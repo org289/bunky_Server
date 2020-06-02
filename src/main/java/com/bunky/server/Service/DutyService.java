@@ -38,7 +38,7 @@ public class DutyService {
         System.out.println("inside scheduled task"); // TODO: delete comment
         List<Duty> allDuties = dutyDao.getAll();
         for (Duty duty : allDuties) {
-            System.out.println(duty.getName()); // TODO: delete comment
+//            System.out.println(duty.getName()); // TODO: delete comment
             updateNextShift(duty);
         }
     }
@@ -53,7 +53,7 @@ public class DutyService {
         Duty.Shift newNextShift = dutyFromDb.getShift();
         // advance next shift by one until the ending date is bigger from today (or equal).
         while (newNextShift.getEndDate().compareTo(LocalDate.now()) < 0) {
-            System.out.println("updating shift"); // TODO: delete comment
+//            System.out.println("updating shift"); // TODO: delete comment
             newNextShift = calcNextShift(dutyFromDb);
         }
         dutyFromDb.setShift(newNextShift);
@@ -62,6 +62,7 @@ public class DutyService {
 
     private Duty.Shift calcNextShift(Duty duty) {
         Duty.Shift next = duty.getShift();
+        List<User> participants = duty.getParticipants();
         LocalDate currentStartDate = next.getStartDate();
         LocalDate currentEndDate = next.getEndDate();
         switch (duty.getFrequency()) {
@@ -78,9 +79,9 @@ public class DutyService {
                 next.setEndDate(currentEndDate.plusMonths(1));
                 break;
         }
-        int currentExecutor = duty.getParticipants().indexOf(next.getExecutor());
-        int nextExecutor = (currentExecutor + 1) % duty.getParticipants().size();
-        next.setExecutor(duty.getParticipants().get(nextExecutor));
+        int currentExecutor = participants.indexOf(next.getExecutor());
+        int nextExecutor = (currentExecutor + 1) % participants.size();
+        next.setExecutor(participants.get(nextExecutor));
         return next;
     }
 

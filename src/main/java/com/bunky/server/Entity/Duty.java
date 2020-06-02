@@ -3,6 +3,7 @@ package com.bunky.server.Entity;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,9 +22,12 @@ public class Duty {
     @SequenceGenerator(name = "duty_generator", sequenceName = "duty_seq")
     private Integer dutyId;
     private String name;
-    @ManyToMany
+
+    //(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> participants;
     private DutyFrequency frequency;
+
     @Embedded
     private Shift shift;
 
@@ -77,12 +81,12 @@ public class Duty {
         this.shift = shift;
     }
 
-    public Shift setShiftDatesByFrequency(DutyFrequency frequency, User nextParticipant){
+    public Shift setShiftDatesByFrequency(DutyFrequency frequency, User nextParticipant) {
         LocalDate shiftStartDate = LocalDate.now();
         LocalDate shiftEndDate = LocalDate.now();
         if (frequency == DutyFrequency.WEEKLY) {
             shiftEndDate = shiftStartDate.plusWeeks(1).minusDays(1);
-        } else if (frequency == DutyFrequency.MONTHLY){
+        } else if (frequency == DutyFrequency.MONTHLY) {
             shiftEndDate = shiftStartDate.plusMonths(1).minusDays(1);
         } // else, its a daily shift so from today till today
         return new Shift(nextParticipant, shiftStartDate, shiftEndDate);
@@ -152,7 +156,7 @@ public class Duty {
             isExecuted = executed;
         }
 
-        public void flipExecuted(){
+        public void flipExecuted() {
             isExecuted = !isExecuted;
         }
     }
