@@ -32,7 +32,7 @@ public class DutyService {
         return dutyDao.getAllAptDuties(aptId);
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "* 0/30 * * * *")
     // this function will update duties' shifts every day at 00:00.
     public void updateShifts() {
         System.out.println("inside scheduled task"); // TODO: delete comment
