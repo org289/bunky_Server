@@ -2,8 +2,8 @@ package com.bunky.server.Controller;
 
 import com.bunky.server.DTO.LoginUser;
 import com.bunky.server.DTO.NewApartment;
-import com.bunky.server.DTO.NewUser;
 import com.bunky.server.DTO.RegisterToApt;
+import com.bunky.server.DTO.RenameData;
 import com.bunky.server.Dao.UserAptDao;
 import com.bunky.server.Entity.Apartment;
 import com.bunky.server.Entity.User;
@@ -28,14 +28,18 @@ public class UserAptController {
     // USER
 
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public User createUser(@RequestBody NewUser newUser) {
+    public User createUser(@RequestBody User newUser) { // TODO: test
         String newUserMail = newUser.getMail();
         if (userAptDao.getUserByMail(newUserMail) != null) {
             // can't create new user because this mail already exists in DB
-            // TODO: check what to throw
             return null;
         }
         return userAptDao.createUser(newUserMail, newUser.getName());
+    }
+
+    @RequestMapping(value = "/renameUser", method = RequestMethod.PUT)
+    public User renameUser(@RequestBody RenameData data) {
+        return userAptDao.renameUser(data.getUser(), data.getNewName());
     }
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.GET)

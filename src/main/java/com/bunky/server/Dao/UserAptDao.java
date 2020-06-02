@@ -58,19 +58,22 @@ public class UserAptDao {
 
     public Apartment loginApt(Integer aptCode, User userID) {
         Apartment apartment = aptRepo.findOne(Example.of(new Apartment(aptCode, null, null))).orElse(null);
-        if(apartment != null) {
+        if (apartment != null) {
             apartment.addUser(userID);
             aptRepo.save(apartment);
         }
         return apartment;
+    }
 
-//        List<Apartment> apts = getAllApt();
-//        for (Apartment apartment : apts) {
-//            if (apartment.getId().equals(aptCode)) {
-//                apartment.addUser(userID);
-//                aptRepo.save(apartment);
-//                break;
-//            }
-//        }
+    public User renameUser(User user, String newName) {
+        if (user == null || newName == null || newName.equals("")) {
+            return null;
+        }
+        User userFromDb = getUserById(user.getUserId());
+        if (userFromDb == null) {
+            return null;
+        }
+        userFromDb.setName(newName);
+        return userRepo.save(userFromDb);
     }
 }
