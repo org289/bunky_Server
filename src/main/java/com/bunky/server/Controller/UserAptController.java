@@ -44,11 +44,11 @@ public class UserAptController {
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.GET)
     public LoginUser loginUser(String mail) {
-        User user =  userAptDao.getUserByMail(mail);
+        User user = userAptDao.getUserByMail(mail);
         boolean isAMember = false;
-        if(user != null){
+        if (user != null) {
             // check if user is member of an apartment
-            if(userAptDao.aptByUser(user) != null){
+            if (userAptDao.aptByUser(user) != null) {
                 isAMember = true;
             }
             return new LoginUser(user, isAMember);
@@ -58,8 +58,8 @@ public class UserAptController {
 
     @RequestMapping(value = "/aptIdByUser", method = RequestMethod.GET)
     public Integer aptIdByUser(User user) {
-        Apartment apt =  userAptDao.aptByUser(user);
-        if (apt != null){
+        Apartment apt = userAptDao.aptByUser(user);
+        if (apt != null) {
             return apt.getAptId();
         }
         return null;
@@ -67,7 +67,13 @@ public class UserAptController {
 
     @RequestMapping(value = "/allUsersOfAptByUser", method = RequestMethod.GET)
     public List<User> getAllUsersOfAptByUser(User user) {
-        return userAptDao.aptByUser(user).getUsers();
+        Apartment apartment = userAptDao.aptByUser(user);
+        if (apartment != null) {
+            return apartment.getUsers();
+        } else {
+            // this user doesnt have an apartment yet
+            return null;
+        }
     }
 
     // TODO: only for tests (delete)
@@ -86,7 +92,7 @@ public class UserAptController {
     @RequestMapping(value = "/loginApt", method = RequestMethod.PUT)
     public Integer loginApartment(@RequestBody RegisterToApt registerToApt) {
         Apartment apt = userAptDao.loginApt(registerToApt.getAptCode(), registerToApt.getUser());
-        if (apt != null){
+        if (apt != null) {
             return apt.getAptId();
         }
         return null;

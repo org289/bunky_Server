@@ -34,9 +34,6 @@ public class BalanceService {
     }
 
     public Expense createExpense(User user, ExpenseCategory expenseCategory, String name, LocalDate date, BigDecimal amount) {
-        if (name == null) {
-            name = expenseCategory.getName();
-        }
         return balanceDao.createExpense(new Expense(user, expenseCategory, name, date, amount));
     }
 
