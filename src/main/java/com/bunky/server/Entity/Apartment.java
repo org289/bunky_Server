@@ -25,6 +25,8 @@ public class Apartment {
     @JoinColumn(name = "apt_id")
     private List<User> users;
 
+    private CurrencySymbol currency;
+
     public Apartment(String name, User userAdmin) {
         this.name = name;
         this.users = new ArrayList<>();
@@ -33,7 +35,12 @@ public class Apartment {
 
     public Apartment(Integer aptId, String name, User userAdmin) {
         this(name, userAdmin);
-        setAptId(aptId);
+        this.aptId = aptId;
+    }
+
+    public Apartment(String name, User userAdmin, CurrencySymbol currency) {
+        this(name, userAdmin);
+        this.currency = currency;
     }
 
     public Apartment() {
@@ -51,7 +58,7 @@ public class Apartment {
         return users;
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         users.add(user);
     }
 
@@ -61,6 +68,18 @@ public class Apartment {
 
     public void setAptId(Integer aptId) {
         this.aptId = aptId;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public CurrencySymbol getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencySymbol currency) {
+        this.currency = currency;
     }
 
     @Override
@@ -76,5 +95,19 @@ public class Apartment {
     @Override
     public int hashCode() {
         return Objects.hash(name, aptId, users);
+    }
+
+    public enum CurrencySymbol {
+        ₪(0), $(1), €(2), £(3), ¥(4);
+
+        private final int value;
+
+        CurrencySymbol(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 }

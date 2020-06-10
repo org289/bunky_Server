@@ -86,7 +86,7 @@ public class UserAptController {
     // APARTMENT
     @RequestMapping(value = "/newApt", method = RequestMethod.POST)
     public Integer createApartment(@RequestBody NewApartment newApartment) {
-        return userAptDao.createApt(newApartment.getUser(), newApartment.getAptName());
+        return userAptDao.createApt(newApartment.getUser(), newApartment.getAptName(), newApartment.getCurrency());
     }
 
     @RequestMapping(value = "/loginApt", method = RequestMethod.PUT)
@@ -98,10 +98,22 @@ public class UserAptController {
         return null;
     }
 
+    @RequestMapping(value = "/getAvailableCurrencies", method = RequestMethod.GET)
+    public List<String> getCurrencies() {
+        return userAptDao.getCurrencies();
+    }
+
+
     // TODO: only for tests (delete)
     @RequestMapping(value = "/apts", method = RequestMethod.GET)
     public List<Apartment> getAllApt() {
         return userAptDao.getAllApt();
     }
+
+//    // TODO: only for tests (delete)
+//    @RequestMapping(value = "/updateCurrency", method = RequestMethod.PUT)
+//    public String updateAllAptCurrency() {
+//        return userAptDao.updateCurrencies();
+//    }
 
 }

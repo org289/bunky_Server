@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserAptDao {
@@ -47,8 +49,8 @@ public class UserAptDao {
 
     // APARTMENTS
 
-    public Integer createApt(User user, String aptName) {
-        return aptRepo.save(new Apartment(aptName, user)).getId();
+    public Integer createApt(User user, String aptName, Apartment.CurrencySymbol currency) {
+        return aptRepo.save(new Apartment(aptName, user, currency)).getId();
     }
 
     public List<Apartment> getAllApt() {
@@ -76,4 +78,21 @@ public class UserAptDao {
         userFromDb.setName(newName);
         return userRepo.save(userFromDb);
     }
+
+    public List<String> getCurrencies() {
+        return Stream.of(Apartment.CurrencySymbol.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+
+//    public String updateCurrencies() {
+//        List<Apartment> apts = getAllApt();
+//        int counter = 0;
+//        for (Apartment apt : apts) {
+//            apt.setCurrency(Apartment.CurrencySymbol.₪);
+//            aptRepo.save(apt);
+//            counter++;
+//        }
+//        return String.valueOf(counter);
+//    }
 }
