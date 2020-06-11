@@ -19,7 +19,7 @@ import java.util.List;
 public class Duty {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "duty_generator")
-    @SequenceGenerator(name = "duty_generator", sequenceName = "duty_seq")
+    @SequenceGenerator(name = "duty_generator", sequenceName = "duty_seq", allocationSize=1)
     private Integer dutyId;
     private String name;
 

@@ -17,7 +17,7 @@ public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense_generator")
-    @SequenceGenerator(name = "expense_generator", sequenceName = "expense_seq" )
+    @SequenceGenerator(name = "expense_generator", sequenceName = "expense_seq", allocationSize=1 )
     private Integer expenseId;
 
     @ManyToOne

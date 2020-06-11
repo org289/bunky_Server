@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class ExpenseCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_generator")
-    @SequenceGenerator(name = "category_generator", sequenceName = "category_seq" )
+    @SequenceGenerator(name = "category_generator", sequenceName = "category_seq" , allocationSize=1)
     private Integer categoryId;
 
     private String name;

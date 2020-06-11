@@ -18,7 +18,7 @@ public class Apartment {
     private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "apt_generator")
-    @SequenceGenerator(name = "apt_generator", sequenceName = "apt_seq", initialValue = 10000)
+    @SequenceGenerator(name = "apt_generator", sequenceName = "apt_seq", initialValue = 10000, allocationSize=1)
     private Integer aptId;
 
     @OneToMany

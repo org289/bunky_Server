@@ -17,7 +17,7 @@ public class Refund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "refund_generator")
-    @SequenceGenerator(name = "refund_generator", sequenceName = "refund_seq" )
+    @SequenceGenerator(name = "refund_generator", sequenceName = "refund_seq" , allocationSize=1)
     private Integer refundId;
 
     @ManyToOne
