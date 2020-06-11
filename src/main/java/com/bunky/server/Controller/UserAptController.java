@@ -65,6 +65,15 @@ public class UserAptController {
         return null;
     }
 
+    @RequestMapping(value = "/aptCurrency", method = RequestMethod.GET)
+    public Apartment.CurrencySymbol aptCurrency(User user) {
+        Apartment apt = userAptDao.aptByUser(user);
+        if (apt != null) {
+            return apt.getCurrency();
+        }
+        return null;
+    }
+
     @RequestMapping(value = "/allUsersOfAptByUser", method = RequestMethod.GET)
     public List<User> getAllUsersOfAptByUser(User user) {
         Apartment apartment = userAptDao.aptByUser(user);
@@ -98,7 +107,7 @@ public class UserAptController {
         return null;
     }
 
-    @RequestMapping(value = "/getAvailableCurrencies", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAvailableCurrencies", method = RequestMethod.GET, produces = "application/json")
     public List<String> getCurrencies() {
         return userAptDao.getCurrencies();
     }
