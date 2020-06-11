@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "duties")
 public class Duty {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "duty_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "duty_generator")
     @SequenceGenerator(name = "duty_generator", sequenceName = "duty_seq")
     private Integer dutyId;
     private String name;

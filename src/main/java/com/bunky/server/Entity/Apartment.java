@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Apartment {
     private String name;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "apt_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "apt_generator")
     @SequenceGenerator(name = "apt_generator", sequenceName = "apt_seq", initialValue = 10000)
     private Integer aptId;
 

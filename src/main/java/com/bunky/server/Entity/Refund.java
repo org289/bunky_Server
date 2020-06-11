@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class Refund {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "refund_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "refund_generator")
     @SequenceGenerator(name = "refund_generator", sequenceName = "refund_seq" )
     private Integer refundId;
 
