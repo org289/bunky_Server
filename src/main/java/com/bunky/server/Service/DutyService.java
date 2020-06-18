@@ -56,6 +56,7 @@ public class DutyService {
 //            System.out.println("updating shift"); // TODO: delete comment
             newNextShift = calcNextShift(dutyFromDb);
         }
+        newNextShift.setExecuted(false);
         dutyFromDb.setShift(newNextShift);
         return dutyDao.updateNextShift(dutyFromDb);
     }
